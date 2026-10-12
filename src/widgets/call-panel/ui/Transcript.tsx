@@ -2,7 +2,6 @@
 
 import type { SegmentModel } from '@/entities/call';
 import { formatDuration } from '@/shared/lib/format';
-import { stripHighlight } from '@/shared/lib/highlight';
 import common from './common.module.css';
 import { ReplyText } from './ReplyText';
 import styles from './Transcript.module.css';
@@ -18,7 +17,6 @@ import styles from './Transcript.module.css';
  * @param props.segments Реплики расшифровки по порядку.
  * @param props.playingSeq Номер реплики, которая звучит сейчас; `-1` — ни одна.
  * @param props.hitSeq Номер реплики с текущим совпадением поиска.
- * @param props.revealed Исходный текст по номерам реплик; `null` — скрытое не раскрывали.
  * @param props.onPick Вызывается с репликой, по которой кликнули.
  * @returns Заголовок с легендой и список реплик.
  */
@@ -26,13 +24,11 @@ export function Transcript({
   segments,
   playingSeq,
   hitSeq,
-  revealed,
   onPick,
 }: {
   segments: readonly SegmentModel[];
   playingSeq: number;
   hitSeq: number | undefined;
-  revealed: Record<number, string> | null;
   onPick: (segment: SegmentModel) => void;
 }) {
   return (
@@ -69,18 +65,7 @@ export function Transcript({
               {segment.speaker === 'operator' ? 'оператор' : 'клиент'}
             </span>
             <span className={styles.text}>
-              <ReplyText
-                text={revealed?.[segment.seq] ?? segment.text}
-                // Пометка ставится только там, где маска действительно была.
-                // Иначе после раскрытия подчёркнутым оказывается весь разговор,
-                // и понять, где именно были скрыты данные, уже нельзя — а это
-                // единственное, ради чего кнопку нажимали.
-                revealed={
-                  revealed !== null &&
-                  revealed[segment.seq] !== undefined &&
-                  revealed[segment.seq] !== stripHighlight(segment.text)
-                }
-              />
+              <ReplyText text={segment.text} />
             </span>
           </button>
         ))}

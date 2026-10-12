@@ -3,8 +3,6 @@ import type { Schemas } from '@/shared/api';
 import { request } from '@/shared/api';
 import { ADMIN_PAGE_SIZE, adminKeys } from '@/widgets/admin-shell';
 
-export type AuditRow = Schemas['AuditRow'];
-
 type AuditResponse = Schemas['AuditResponse'];
 
 export type AuditFilters = {

@@ -3,11 +3,7 @@ import { DEFAULT_CONFIG, resetConfigCache } from '@/shared/config';
 import { apiUrl, request } from './client';
 
 const OPEN = { ...DEFAULT_CONFIG, authMode: 'open' as const };
-const KEYCLOAK = {
-  ...DEFAULT_CONFIG,
-  authMode: 'keycloak' as const,
-  keycloak: { ...DEFAULT_CONFIG.keycloak, url: 'https://kc.test', realm: 'r', clientId: 'c' },
-};
+const KEYCLOAK = { ...DEFAULT_CONFIG, authMode: 'keycloak' as const };
 
 /**
  * Подменяет сеть ответом с заданным кодом и телом.
@@ -22,7 +18,6 @@ function respond(status: number, body: unknown = {}): ReturnType<typeof vi.fn> {
 
 beforeEach(() => {
   resetConfigCache(OPEN);
-  sessionStorage.clear();
 });
 
 describe('адрес API', () => {

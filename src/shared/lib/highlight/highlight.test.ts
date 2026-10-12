@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { HIGHLIGHT_START, HIGHLIGHT_STOP, splitHighlight, stripHighlight } from './highlight';
+import { HIGHLIGHT_START, HIGHLIGHT_STOP, splitHighlight } from './highlight';
 
 const S = HIGHLIGHT_START;
 const E = HIGHLIGHT_STOP;
@@ -66,15 +66,5 @@ describe('разбор подсветки', () => {
       expect(piece.text).not.toContain(S);
       expect(piece.text).not.toContain(E);
     }
-  });
-});
-
-describe('очистка от меток', () => {
-  it('убирает и открывающие, и закрывающие', () => {
-    expect(stripHighlight(`${S}интернет${E} не работает`)).toBe('интернет не работает');
-  });
-
-  it('чужие кавычки не трогает', () => {
-    expect(stripHighlight('подключите «Кошелёк»')).toBe('подключите «Кошелёк»');
   });
 });

@@ -1,6 +1,6 @@
 import { expect, type Page, test } from '@playwright/test';
 
-import { aCallWithMasking, ensureLongRecording, markOneRecordingMissing } from './stand';
+import { aCallWithTranscript, ensureLongRecording, markOneRecordingMissing } from './stand';
 
 /**
  * Панель разговора против поднятого стенда в режиме `open` (SP-505).
@@ -11,9 +11,8 @@ import { aCallWithMasking, ensureLongRecording, markOneRecordingMissing } from '
  * длительности, ни индекса кадров.
  *
  * Отказ `reader`'у здесь не проверяется: в режиме `open` у принципала все роли.
- * Это закрыто тестами сервиса (`test_a_reader_cannot_download`,
- * `test_a_reader_cannot_reveal_and_leaves_no_trace`) — там, где решение и
- * принимается.
+ * Это закрыто тестами сервиса (`test_a_reader_cannot_download`) — там, где
+ * решение и принимается.
  */
 
 /**
@@ -93,7 +92,7 @@ test('прямая ссылка на разговор показывает ег�
   // выдача пуста — а разговор, ради которого ссылку открыли, показать
   // обязаны. Сетка со списком и панелью стояла внутри ветки «найденное
   // показано», и панель исчезала вместе со списком.
-  const call = aCallWithMasking();
+  const call = aCallWithTranscript();
   await page.goto(`/calls/${call}`);
 
   const panel = page.getByRole('complementary', { name: 'Разговор' });
@@ -127,35 +126,6 @@ test('навигация по совпадениям идёт по кругу (P
   // кнопка, которая перестаёт работать, выглядит сломанной.
   await panel.getByRole('button', { name: '← пред.' }).click();
   await expect(counter).toHaveText(`совпадение ${total} из ${total}`);
-});
-
-test('маска показана штриховкой, раскрытие показывает исходный текст (PLY-05)', async ({
-  page,
-}) => {
-  // Звонок выбирается по факту маскировки, а не поиском по слову: проверяется
-  // поведение интерфейса, а не то, чей номер назвали в разговоре. Раньше тест
-  // ждал заранее известный телефон из сидового набора и на настоящей выгрузке
-  // не находил ни его, ни слова, которым открывал звонок.
-  await page.goto(`/calls/${aCallWithMasking()}`);
-  const panel = page.getByRole('complementary', { name: 'Разговор' });
-  await expect(panel).toBeVisible({ timeout: 15_000 });
-
-  const hidden = panel.getByText('•••').first();
-  await expect(hidden).toBeVisible({ timeout: 15_000 });
-
-  await panel.getByRole('button', { name: 'Показать скрытое' }).click();
-
-  await expect(panel.getByText('исходный текст показан')).toBeVisible({ timeout: 10_000 });
-  // Штриховки на месте раскрытого больше нет — иначе «показать» ничего не
-  // показало бы.
-  await expect(panel.locator('[class*="revealed"]').first()).toBeVisible();
-
-  // Помечены ровно те реплики, где маска и была. Пометив все, интерфейс
-  // потерял бы единственное, ради чего кнопку нажимали: где именно скрывали.
-  const revealed = panel.locator('[class*="revealed"]');
-  const replies = panel.locator('button[class*="reply"]');
-  expect(await revealed.count()).toBeGreaterThan(0);
-  expect(await revealed.count()).toBeLessThan(await replies.count());
 });
 
 test('перемотка работает на записи длиннее получаса (PLY-02)', async ({ page }) => {

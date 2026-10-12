@@ -180,14 +180,12 @@ export function toApiQuery(
  * по NCC над списком Телфина.
  *
  * @param state Состояние поиска.
- * @param timeZone Часовой пояс показа; по умолчанию — пояс стенда.
  * @returns Период и источник из параметров поиска, без запроса и фильтров.
  */
 export function statsQuery(
   state: SearchState,
-  timeZone?: string,
 ): Pick<ReturnType<typeof toApiQuery>, 'from' | 'to' | 'period' | 'source'> {
-  const { from, to, period, source } = toApiQuery(state, timeZone);
+  const { from, to, period, source } = toApiQuery(state);
   return { from, to, period, source };
 }
 
@@ -200,12 +198,11 @@ export function statsQuery(
  * при сборке адреса, молча принесла бы файл звонков NCC.
  *
  * @param state Состояние поиска.
- * @param timeZone Часовой пояс показа; по умолчанию — пояс стенда.
  * @returns Параметры адреса выгрузки: те же, что у выдачи, без номера страницы.
  */
-export function exportQuery(state: SearchState, timeZone?: string): URLSearchParams {
+export function exportQuery(state: SearchState): URLSearchParams {
   const params = new URLSearchParams();
-  for (const [key, value] of Object.entries(toApiQuery(state, timeZone))) {
+  for (const [key, value] of Object.entries(toApiQuery(state))) {
     if (value !== undefined && key !== 'page') params.set(key, String(value));
   }
   return params;

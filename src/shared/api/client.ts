@@ -88,8 +88,6 @@ export type RequestOptions = {
   query?: Record<string, string | number | boolean | null | undefined>;
   body?: unknown;
   signal?: AbortSignal;
-  /** Нужен только выдаче куки для аудио: `fetch` иначе не примет `Set-Cookie`. */
-  credentials?: RequestCredentials;
 };
 
 /**
@@ -122,7 +120,7 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
       // Личность носит кука сессии, а не заголовок (ADR-SPEECH-0002). Без
       // `credentials` браузер её не приложит, и каждый запрос отвечал бы
       // `401` — при живой сессии и без единого сообщения о причине.
-      credentials: options.credentials ?? 'same-origin',
+      credentials: 'same-origin',
     });
   } catch (cause) {
     // Отказ сети неотличим от отказа сервиса на этом уровне, и врать про

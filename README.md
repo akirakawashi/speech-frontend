@@ -19,14 +19,8 @@ Steiger для проверки слоёв.
 
 | Переменная | Умолчание | Что это |
 |---|---|---|
-| `SPEECH_API_URL` | пусто | адрес `speech-ms`; пусто — тот же источник (за общим nginx) |
+| `SPEECH_API_URL` | пусто | адрес `speech-ms`; пусто — тот же источник: `/api` пробрасывает сам фронт |
 | `SPEECH_AUTH_MODE` | `keycloak` | `open` пропускает вход; всё, кроме `open`, — это `keycloak` |
-| `SPEECH_KEYCLOAK_URL` | пусто | базовый адрес Keycloak |
-| `SPEECH_KEYCLOAK_REALM` | пусто | realm |
-| `SPEECH_KEYCLOAK_CLIENT_ID` | пусто | клиент |
-| `SPEECH_KEYCLOAK_RESPONSE_MODE` | `fragment` | код не должен попадать в строку запроса |
-| `SPEECH_KEYCLOAK_SCOPE` | `openid profile email` | |
-| `SPEECH_KEYCLOAK_PKCE_ENABLED` | `true` | выключается только явным `false` |
 | `SPEECH_DISPLAY_TIMEZONE` | `Europe/Moscow` | только отображение; хранится всё в UTC |
 
 Один образ работает на любом стенде. Это прямое следствие дефектов 17/19/22/28
@@ -36,7 +30,7 @@ Steiger для проверки слоёв.
 ## Разработка
 
 ```bash
-pnpm install
+pnpm install --frozen-lockfile
 pnpm dev            # http://127.0.0.1:3000
 pnpm check          # типы, стиль, слои, докстринги, классы, тесты и сборка
 ```
@@ -44,6 +38,9 @@ pnpm check          # типы, стиль, слои, докстринги, кл
 Нужен поднятый `speech-ms`. Настройки берутся из `.env.local` (скопируй из
 `.env.example`), там же `SPEECH_AUTH_MODE=open` — пока проекту не выделен
 Keycloak, иначе приложение не открыть.
+
+Версии инструментов, установка и пересоздание окружения:
+[docs/environment.md](docs/environment.md).
 
 ```bash
 # API рядом, в режиме open
@@ -185,10 +182,7 @@ pnpm e2e
 `src/shared/api/schema.d.ts` порождается из `openapi.speech.json` бэкенда и в правках
 руками не нуждается: `pnpm api:types` читает `../speech-backend/openapi.speech.json`.
 
-Сейчас в репозитории лежит схема контракта 2.4, а в `speech-backend` — контракт
-3.0 без обезличивания. Перегенерация уберёт типы раскрытия скрытого, и вместе с
-ней надо убирать код, который на них опирается: см. «Что отложено» в
-[docs/architecture.md](docs/architecture.md).
+В репозитории лежит схема контракта 3.0 — того, что отдаёт `speech-backend`.
 
 Схема выгружается на стороне бэкенда:
 

@@ -17,7 +17,6 @@ export const JOB_STATUS_LABEL: Record<string, string> = {
 export const JOB_KIND_LABEL: Record<string, string> = {
   ingest: 'приём',
   transcribe: 'расшифровка',
-  mask: 'обезличивание',
   analyze: 'анализ',
 };
 
@@ -27,7 +26,7 @@ export const JOB_LANE_LABEL: Record<string, string> = {
 };
 
 /** Этапы конвейера по порядку обработки звонка. */
-export const JOB_KINDS = ['ingest', 'transcribe', 'mask', 'analyze'] as const;
+export const JOB_KINDS = ['ingest', 'transcribe', 'analyze'] as const;
 
 /** Состояния задания в том порядке, в каком их показывает фильтр. */
 export const JOB_STATUSES = ['queued', 'running', 'done', 'failed', 'dead'] as const;

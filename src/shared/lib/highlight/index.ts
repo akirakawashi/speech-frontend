@@ -1,1 +1,1 @@
-export { splitHighlight, stripHighlight } from './highlight';
+export { splitHighlight } from './highlight';

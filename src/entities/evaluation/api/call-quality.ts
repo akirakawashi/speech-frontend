@@ -8,13 +8,11 @@ import type { CallQualityResponse } from '../model/types';
  * `404` значит «не оценён» — это состояние, а не поломка.
  *
  * @param callId Идентификатор звонка.
- * @param enabled Отправлять ли запрос.
  * @returns Состояние запроса TanStack Query с оценкой звонка.
  */
-export function useCallQuality(callId: string, enabled: boolean) {
+export function useCallQuality(callId: string) {
   return useQuery({
     queryKey: ['call-quality', callId],
     queryFn: () => request<CallQualityResponse>(`/api/v1/calls/${callId}/quality`),
-    enabled,
   });
 }

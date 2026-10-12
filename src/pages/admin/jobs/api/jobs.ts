@@ -4,8 +4,6 @@ import { request } from '@/shared/api';
 import type { ActionResponse } from '@/widgets/admin-shell';
 import { ADMIN_PAGE_SIZE, adminKeys, useAdminMutation } from '@/widgets/admin-shell';
 
-export type JobRow = Schemas['JobRow'];
-
 type JobsResponse = Schemas['JobsResponse'];
 
 export type JobFilters = {

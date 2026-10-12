@@ -7,8 +7,8 @@
  * правок на стороне Keycloak не будет. Проверено живьём — обмен кода без
  * секрета отвечает `unauthorized_client`.
  *
- * Поэтому обмен переехал на сервер (ADR-SPEECH-0002). Здесь осталось три
- * действия: уйти на вход, уйти на выход и прочитать причину отказа. Токенов в
+ * Поэтому обмен переехал на сервер (ADR-SPEECH-0002). Здесь осталось два
+ * действия: уйти на вход и прочитать причину отказа. Токенов в
  * браузере нет ни одного — межсайтовый скриптинг больше не может их вынести,
  * потому что выносить нечего.
  *
@@ -98,34 +98,6 @@ export async function startLogin(): Promise<void> {
 }
 
 /**
- * Гасит сессию на сервере и уводит на выход из Keycloak.
- *
- * Порядок именно такой. Сначала гаснет наша сессия — иначе уход на Keycloak
- * оставил бы её живой, и возврат по кнопке «назад» вернул бы работающий
- * интерфейс. Отказ сети при этом не должен запереть человека внутри: адрес
- * выхода не пришёл — уходим на корень, где его встретит форма входа.
- *
- * @returns `true`, если сервис назвал адрес выхода; `false` — пользователь уведён на корень.
- */
-export async function startLogout(): Promise<boolean> {
-  let logoutUrl = '';
-  try {
-    const response = await fetch(authUrl('/api/v1/auth/logout'), {
-      method: 'POST',
-      credentials: 'same-origin',
-    });
-    if (response.ok) {
-      logoutUrl = String(((await response.json()) as { logout_url?: string }).logout_url || '');
-    }
-  } catch {
-    // Сеть отказала — сессия могла остаться живой, но держать человека на
-    // экране, который выглядит рабочим, нельзя. Уводим на корень.
-  }
-  window.location.assign(logoutUrl || '/');
-  return Boolean(logoutUrl);
-}
-
-/**
  * Читает из адреса причину несостоявшегося входа и убирает её оттуда.
  *
  * Сервис приводит сюда с `?auth_error=<код>`, а не отдаёт JSON: возврат от
@@ -147,38 +119,4 @@ export function takeAuthError(): string | null {
   window.history.replaceState({}, document.title, `${url.pathname}${url.search}`);
 
   return AUTH_ERRORS[code as AuthErrorCode] ?? `Вход не состоялся: ${code}.`;
-}
-
-/** Как подписать человека в углу экрана. */
-export type DisplayIdentity = {
-  display_name?: string | null;
-  username?: string | null;
-  email?: string | null;
-};
-
-/**
- * Выбирает, как подписать пользователя в углу экрана.
- *
- * @param identity Имя, логин и почта пользователя.
- * @returns Имя, а без него — логин или почта; «Авторизован», если нет ничего.
- */
-export function getDisplayName(identity: DisplayIdentity = {}): string {
-  return identity.display_name || identity.username || identity.email || 'Авторизован';
-}
-
-/**
- * Собирает инициалы пользователя для аватара.
- *
- * @param identity Имя, логин и почта пользователя.
- * @returns До двух заглавных букв; «ОК», если подписать нечем.
- */
-export function getDisplayInitials(identity: DisplayIdentity = {}): string {
-  return (
-    getDisplayName(identity)
-      .split(/\s+/)
-      .filter(Boolean)
-      .slice(0, 2)
-      .map((part) => part.charAt(0).toUpperCase())
-      .join('') || 'ОК'
-  );
 }

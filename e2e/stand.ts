@@ -122,23 +122,18 @@ export function markOneRecordingDeleted(): { sessionId: string; restore: () => v
 }
 
 /**
- * Находит звонок, в котором маскировка действительно что-то нашла.
+ * Находит звонок с расшифровкой — любой.
  *
- * Раньше тест маскировки открывал звонок поиском по слову из сидового набора и
- * ждал в нём заранее известный телефон. На настоящей выгрузке не совпало ни то
- * ни другое — а проверяется здесь поведение интерфейса, а не то, чей номер
- * назвали в разговоре.
+ * Сценариям нужен разговор, у которого есть реплики, а какой именно — неважно:
+ * проверяется поведение интерфейса, а не содержание разговора.
  *
  * @returns Идентификатор звонка.
- * @throws {Error} На стенде нет ни одной обезличенной реплики.
+ * @throws {Error} На стенде нет ни одного расшифрованного звонка.
  */
-export function aCallWithMasking(): string {
-  const id = sql(
-    'SELECT s.call_id FROM speech_transcript_segments s ' +
-      "WHERE s.pii_spans::text NOT IN ('[]', 'null') LIMIT 1",
-  );
+export function aCallWithTranscript(): string {
+  const id = sql('SELECT s.call_id FROM speech_transcript_segments s LIMIT 1');
   if (!id) {
-    throw new Error('на стенде нет ни одной обезличенной реплики — проверять раскрытие не на чем');
+    throw new Error('на стенде нет ни одного расшифрованного звонка — открывать нечего');
   }
   return id;
 }
@@ -320,7 +315,7 @@ export function aProbeClassifierNode(): { label: string; remove: () => void } {
  * @returns Идентификатор звонка и функция, которая возвращает его задания на место.
  */
 export function aCallReadyForReprocess(): { callId: string; restore: () => void } {
-  const callId = safe(aCallWithMasking(), 'идентификатор звонка');
+  const callId = safe(aCallWithTranscript(), 'идентификатор звонка');
   const snapshot = sql(
     "SELECT coalesce(json_agg(row_to_json(j))::text, '[]') FROM speech_jobs j " +
       `WHERE j.call_id = '${callId}' AND j.status IN ('queued', 'running')`,

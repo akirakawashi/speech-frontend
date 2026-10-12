@@ -56,7 +56,7 @@ export function CallReviewBody({
   onNext?: () => void;
 }) {
   const card = useCall(callId);
-  const quality = useCallQuality(callId, true);
+  const quality = useCallQuality(callId);
   const player = useRecordingPlayer();
   const { seek } = player;
   const replyRefs = useRef(new Map<number, HTMLButtonElement>());

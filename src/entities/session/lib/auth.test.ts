@@ -1,13 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { DEFAULT_CONFIG, type RuntimeConfig, resetConfigCache } from '@/shared/config';
-import {
-  getDisplayInitials,
-  getDisplayName,
-  isOpenMode,
-  startLogin,
-  startLogout,
-  takeAuthError,
-} from './auth';
+import { isOpenMode, startLogin, takeAuthError } from './auth';
 
 /**
  * Набор переписан целиком вместе с самим входом (ADR-SPEECH-0002).
@@ -18,8 +11,8 @@ import {
  * `aicistent-backend/tests/test_speech_auth_bff.py` — туда же, куда переехал
  * код, который они проверяли.
  *
- * Здесь осталось три вопроса: куда уводит вход, куда уводит выход и что
- * человек видит, когда его не пустили.
+ * Здесь осталось два вопроса: куда уводит вход и что человек видит, когда его
+ * не пустили.
  */
 
 const KEYCLOAK: RuntimeConfig = { ...DEFAULT_CONFIG, authMode: 'keycloak' };
@@ -94,41 +87,6 @@ describe('старт входа', () => {
   });
 });
 
-describe('выход', () => {
-  it('сначала гасит сессию на сервере, потом уводит на Keycloak', async () => {
-    const { assign } = stubLocation('https://speech.test/calls/1');
-    const fetchMock = vi.fn(
-      async () => new Response(JSON.stringify({ logout_url: 'https://kc.test/logout' })),
-    );
-    vi.stubGlobal('fetch', fetchMock);
-
-    await startLogout();
-
-    const [url, init] = fetchMock.mock.calls[0] as unknown as [string, RequestInit];
-    expect(url).toContain('/api/v1/auth/logout');
-    expect(init.method).toBe('POST');
-    // Без этого кука не уйдёт и гасить будет нечего.
-    expect(init.credentials).toBe('same-origin');
-    expect(assign).toHaveBeenCalledWith('https://kc.test/logout');
-  });
-
-  it('отказ сети не запирает человека внутри', async () => {
-    const { assign } = stubLocation('https://speech.test/calls/1');
-    vi.stubGlobal(
-      'fetch',
-      vi.fn(async () => {
-        throw new TypeError('Failed to fetch');
-      }),
-    );
-
-    await startLogout();
-
-    // Сессия могла остаться живой, но держать человека на экране, который
-    // выглядит рабочим, нельзя.
-    expect(assign).toHaveBeenCalledWith('/');
-  });
-});
-
 describe('причина отказа', () => {
   it('«нет групп» объясняется так, чтобы человек не ходил по кругу', () => {
     stubLocation('https://speech.test/?auth_error=no_groups');
@@ -161,17 +119,5 @@ describe('причина отказа', () => {
     stubLocation('https://speech.test/?auth_error=нечто_новое');
 
     expect(takeAuthError()).toContain('нечто_новое');
-  });
-});
-
-describe('подпись человека', () => {
-  it('имя предпочитается логину и почте', () => {
-    expect(getDisplayName({ display_name: 'Иван Петров', username: 'ivanov' })).toBe('Иван Петров');
-    expect(getDisplayName({ username: 'ivanov' })).toBe('ivanov');
-    expect(getDisplayName({})).toBe('Авторизован');
-  });
-
-  it('инициалы берутся из имени, а не из почты, когда имя есть', () => {
-    expect(getDisplayInitials({ display_name: 'Иван Петров', email: 'zzz@x' })).toBe('ИП');
   });
 });

@@ -17,7 +17,6 @@
   --surface-3: #1e2535;
   --surface-4: #252d3d;
   --surface-hover: rgba(255, 255, 255, 0.045);
-  --surface-active: rgba(255, 255, 255, 0.075);
 
   /* --- Текст -------------------------------------------------------------- */
   --text: #e8edf5;
@@ -42,16 +41,12 @@
   --red: #ff4d6d;
   --yellow: #ffd166;
   --blue: #4da6ff;
-  --violet: #a78bfa;
   --danger: var(--red);
   --warning: var(--yellow);
-  --info: var(--blue);
-  --success: var(--accent);
 
   /* Тональность разговора. Три цвета, а не градиент: значений ровно три, и
      промежуточных оттенков быть не может. */
   --sentiment-negative: var(--red);
-  --sentiment-neutral: var(--text2);
   --sentiment-positive: var(--accent);
 
   /* --- Шрифт -------------------------------------------------------------- */
@@ -63,14 +58,12 @@
   --text-base: 14px;
   --text-md: 15px;
   --text-lg: 17px;
-  --text-xl: 20px;
   --text-2xl: 25px;
   --leading-tight: 1.2;
   --leading-snug: 1.35;
   --leading-normal: 1.55;
   --leading-relaxed: 1.65;
   --tracking-caps: 0.07em;
-  --weight-normal: 400;
   --weight-medium: 500;
   --weight-semibold: 600;
   --weight-bold: 700;
@@ -83,7 +76,6 @@
   --space-5: 20px;
   --space-6: 24px;
   --space-8: 32px;
-  --space-10: 40px;
   --space-12: 48px;
   --space-16: 64px;
 
@@ -92,13 +84,9 @@
   --radius-sm: 8px;
   --radius-md: 10px;
   --radius-lg: 14px;
-  --radius-xl: 20px;
   --radius-full: 999px;
 
   /* --- Тени: на тёмном фоне тень читается как касание, а не как падение ---- */
-  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
-  --shadow-2: 0 4px 12px -2px rgba(0, 0, 0, 0.45);
-  --shadow-3: 0 14px 34px -10px rgba(0, 0, 0, 0.6);
   --shadow-4: 0 28px 70px -18px rgba(0, 0, 0, 0.72);
   --shadow-accent: 0 6px 20px -6px rgba(0, 212, 160, 0.42);
 
@@ -117,8 +105,6 @@
   --ring-inset: inset 0 0 0 2px var(--accent);
 
   /* --- Раскладка ----------------------------------------------------------- */
-  --header-height: 56px;
-  --panel-width: 560px;
   --content-max: 1440px;
 }
 

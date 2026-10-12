@@ -40,7 +40,7 @@ export function QualityBlock({
   segments: readonly SegmentModel[];
   onSeek: (seconds: number) => void;
 }) {
-  const quality = useCallQuality(callId, true);
+  const quality = useCallQuality(callId);
 
   if (quality.isPending) return null;
   if (quality.isError) {

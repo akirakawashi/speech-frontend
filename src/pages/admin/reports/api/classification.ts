@@ -6,7 +6,6 @@ import type { Schemas } from '@/shared/api';
 import { request } from '@/shared/api';
 
 export type ClassificationResponse = Schemas['ClassificationResponse'];
-export type ClassificationNode = Schemas['ClassificationNode'];
 
 /**
  * Загружает узлы классификатора периода для фильтров отчёта (SP-310) — только встречающиеся, со

@@ -14,14 +14,6 @@ let loaded: RuntimeConfig | null = null;
 export const DEFAULT_CONFIG: RuntimeConfig = {
   apiUrl: '',
   authMode: 'keycloak',
-  keycloak: {
-    url: '',
-    realm: '',
-    clientId: '',
-    responseMode: 'fragment',
-    scope: 'openid profile email',
-    pkceEnabled: true,
-  },
   displayTimezone: 'Europe/Moscow',
 };
 

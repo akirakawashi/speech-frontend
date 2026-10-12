@@ -7,7 +7,7 @@
  */
 
 import { apiUrl } from '@/shared/api';
-import { downloadFile, filenameFrom } from '@/shared/lib/download';
+import { downloadFile } from '@/shared/lib/download';
 import { scopeQuery } from './queries';
 import type { QualityState } from './state';
 
@@ -30,15 +30,16 @@ export function reviewHref(state: Scope, timeZone: string): string {
 }
 
 /**
- * Выбирает имя файла сверки: из `Content-Disposition`, а без него — собранное из периода, как у
- * сервера.
+ * Собирает имя файла сверки из периода — как у сервера.
  *
- * @param disposition Значение заголовка; `null` — заголовка нет.
- * @param state Охват экрана: из периода собирается запасное имя.
- * @returns Имя файла.
+ * Нужно на случай, если сервер имени не назвал: имя из ответа подставляет само
+ * скачивание.
+ *
+ * @param state Охват экрана: период.
+ * @returns Имя файла вида `quality-review-<начало>_<конец>.xlsx`.
  */
-export function reviewFilename(disposition: string | null, state: Scope): string {
-  return filenameFrom(disposition, `quality-review-${state.from}_${state.to}.xlsx`);
+export function reviewFilename(state: Scope): string {
+  return `quality-review-${state.from}_${state.to}.xlsx`;
 }
 
 /**
@@ -68,5 +69,5 @@ export function reviewRefusalText(status: number, detail: string): string {
  * @throws {Error} Сервис недоступен или ответил отказом; текст ошибки показывается пользователю.
  */
 export async function downloadReview(state: Scope, timeZone: string): Promise<void> {
-  await downloadFile(reviewHref(state, timeZone), reviewFilename(null, state), reviewRefusalText);
+  await downloadFile(reviewHref(state, timeZone), reviewFilename(state), reviewRefusalText);
 }

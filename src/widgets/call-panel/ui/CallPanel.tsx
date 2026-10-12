@@ -10,9 +10,8 @@ import {
   useCall,
   useRecordingPlayer,
 } from '@/entities/call';
-import { PERM_DOWNLOAD_AUDIO, PERM_QUALITY, PERM_REVEAL_PII, useSession } from '@/entities/session';
+import { PERM_DOWNLOAD_AUDIO, PERM_QUALITY, useSession } from '@/entities/session';
 import { ApiError } from '@/shared/api';
-import { revealCall } from '../api/reveal';
 import { CallMeta } from './CallMeta';
 import styles from './CallPanel.module.css';
 import { CallReason } from './CallReason';
@@ -62,16 +61,6 @@ export function CallPanel({ callId, query, startAt, onClose, compact = false }: 
 
   const card = useCall(callId, query);
 
-  // Раскрытие живёт до перезагрузки страницы и хранится отдельно от карточки
-  // (PLY-05): в кэше запроса оно пережило бы уход и возврат на экран, а
-  // раскрытие — разовое действие с записью в журнал.
-  const [revealed, setRevealed] = useState<Record<number, string> | null>(null);
-  const [revealError, setRevealError] = useState<string | null>(null);
-  useEffect(() => {
-    setRevealed(null);
-    setRevealError(null);
-  }, []);
-
   const data = card.data;
   const segments = useMemo(() => data?.segments ?? [], [data]);
   const hits = useMemo(() => data?.hit_seqs ?? [], [data]);
@@ -115,20 +104,6 @@ export function CallPanel({ callId, query, startAt, onClose, compact = false }: 
     seek(segment.start_ms / 1000);
     const index = hits.indexOf(segment.seq);
     if (index >= 0) setHitIndex(index);
-  }
-
-  /** Показывает исходный текст реплик на месте масок; отказ — словами под кнопками. */
-  async function reveal() {
-    setRevealError(null);
-    try {
-      setRevealed(await revealCall(callId));
-    } catch (error) {
-      setRevealError(
-        error instanceof ApiError && error.kind === 'forbidden'
-          ? 'Недостаточно прав для раскрытия.'
-          : 'Не удалось раскрыть текст.',
-      );
-    }
   }
 
   /** Копирует ссылку на разговор с источником, запросом и текущей позицией записи. */
@@ -257,26 +232,12 @@ export function CallPanel({ callId, query, startAt, onClose, compact = false }: 
             </button>
           </>
         ) : null}
-        <span className={common.spacer} />
-        {session.can(PERM_REVEAL_PII) && !revealed ? (
-          <button type="button" className={common.button} onClick={reveal}>
-            Показать скрытое
-          </button>
-        ) : null}
-        {revealed ? <span className={styles.counter}>исходный текст показан</span> : null}
       </div>
-
-      {revealError ? (
-        <div className={`${styles.note} ${styles.error}`} role="alert">
-          {revealError}
-        </div>
-      ) : null}
 
       <Transcript
         segments={segments}
         playingSeq={playingSeq}
         hitSeq={hits[hitIndex]}
-        revealed={revealed}
         onPick={pickReply}
       />
     </aside>

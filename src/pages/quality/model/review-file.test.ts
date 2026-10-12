@@ -34,10 +34,8 @@ describe('файл «Сверка оценок»', () => {
     expect(nobody.has('operator_id')).toBe(false);
   });
 
-  it('имя файла — из ответа сервера, иначе из периода', () => {
-    const header = 'attachment; filename="quality-review-2026-09-14_2026-09-20.xlsx"';
-    expect(reviewFilename(header, WEEK)).toBe('quality-review-2026-09-14_2026-09-20.xlsx');
-    expect(reviewFilename(null, WEEK)).toBe('quality-review-2026-09-14_2026-09-20.xlsx');
+  it('запасное имя файла собирается из периода', () => {
+    expect(reviewFilename(WEEK)).toBe('quality-review-2026-09-14_2026-09-20.xlsx');
   });
 
   it('отказ называется словами, а «нечего сверять» — не сбой', () => {

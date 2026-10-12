@@ -14,14 +14,12 @@ export const QUALITY_CALLS_PAGE = 50;
  * показала бы чужую сводку из кэша.
  *
  * @param query Параметры охвата: период, сотрудник или звонки без оператора.
- * @param enabled Отправлять ли запрос.
  * @returns Состояние запроса TanStack Query со сводкой.
  */
-export function useQualitySummary(query: QualityQuery, enabled = true) {
+export function useQualitySummary(query: QualityQuery) {
   return useQuery({
     queryKey: ['quality-summary', query],
     queryFn: () => request<QualitySummaryResponse>('/api/v1/quality/summary', { query }),
-    enabled,
   });
 }
 
@@ -32,10 +30,9 @@ export function useQualitySummary(query: QualityQuery, enabled = true) {
  * строк.
  *
  * @param query Параметры охвата, отбора и порядка.
- * @param enabled Отправлять ли запрос.
  * @returns Состояние запроса TanStack Query с загруженными страницами списка.
  */
-export function useQualityCalls(query: QualityQuery, enabled = true) {
+export function useQualityCalls(query: QualityQuery) {
   return useInfiniteQuery({
     queryKey: ['quality-calls', query],
     initialPageParam: 0,
@@ -47,6 +44,5 @@ export function useQualityCalls(query: QualityQuery, enabled = true) {
       const loaded = all.reduce((sum, page) => sum + (page.items?.length ?? 0), 0);
       return loaded < last.total ? loaded : undefined;
     },
-    enabled,
   });
 }

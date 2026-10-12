@@ -3,9 +3,6 @@ import { request } from '@/shared/api';
 import { type SearchState, statsQuery, toApiQuery } from '../model/search-state';
 import type { SearchResponse, StatsResponse } from '../model/types';
 
-/** Размер страницы выдачи (SRC-05). Совпадает с умолчанием сервера. */
-export const PAGE_SIZE = 20;
-
 /**
  * Строит ключ кэша выдачи поиска.
  *

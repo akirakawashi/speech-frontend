@@ -95,8 +95,8 @@ test('настройки показывают действующие значе�
   // Ноль здесь — значение, а не «не задано»: канал оператора бывает левым.
   await expect(screen.getByLabel('Канал оператора в стерео')).toHaveValue('0');
 
-  // Попытки задаются всеми четырьмя этапами сразу.
-  for (const stage of ['приём', 'расшифровка', 'обезличивание', 'анализ']) {
+  // Попытки задаются всеми этапами сразу.
+  for (const stage of ['приём', 'расшифровка', 'анализ']) {
     await expect(screen.getByLabel(stage, { exact: true })).toBeVisible();
   }
 });
@@ -213,7 +213,7 @@ test('выключить узел классификатора → переоб�
     await openAdmin(page, 'jobs');
     const jobs = page.getByRole('region', { name: 'Задания' });
     await jobs.getByLabel('Идентификатор звонка').fill(callId);
-    await jobs.getByLabel('С этапа').selectOption('mask');
+    await jobs.getByLabel('С этапа').selectOption('analyze');
     await jobs.getByRole('button', { name: 'Переобработать' }).click();
     await expect(jobs.getByText(/Поставлено заданий|Затронуто/)).toBeVisible({ timeout: 15_000 });
 

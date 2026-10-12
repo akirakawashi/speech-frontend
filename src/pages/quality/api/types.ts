@@ -10,15 +10,7 @@ export type QualityObjectionShare = Schemas['QualityObjectionShare'];
 export type QualityOutcomeShare = Schemas['QualityOutcomeShare'];
 /** Сотрудник в сводке: число оценённых звонков и средний балл. */
 export type QualityOperatorScore = Schemas['QualityOperatorScore'];
-/** Неделя в сводке: доля полностью корректных звонков. */
-export type QualityWeek = Schemas['QualityWeek'];
 /** Страница списка оценённых звонков. */
 export type QualityCallsResponse = Schemas['QualityCallsResponse'];
 /** Звонок в списке: балл, разряд, этапы и состояние оценки. */
 export type QualityCallItem = Schemas['QualityCallItem'];
-/** Этап в строке списка звонков. */
-export type QualityCallStage = Schemas['QualityCallStage'];
-/** Число звонков по разрядам: плохие, средние, хорошие. */
-export type QualityBuckets = Schemas['QualityBuckets'];
-/** Этап у одного сотрудника: сколько раз был нужен и сколько раз не выполнен. */
-export type QualityOperatorStage = Schemas['QualityOperatorStage'];

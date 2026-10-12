@@ -6,12 +6,6 @@ export const SENTIMENT_LABEL: Record<string, string> = {
   positive: 'позитивный',
 };
 
-export const SENTIMENT_GLYPH: Record<string, string> = {
-  negative: '▼',
-  neutral: '■',
-  positive: '▲',
-};
-
 export const SEGMENT_LABEL: Record<string, string> = {
   b2b: 'юрлицо',
   individual: 'физлицо',

@@ -59,13 +59,3 @@ export function splitHighlight(quote: string): Piece[] {
   if (rest.length > 0) pieces.push({ text: rest, marked: false, offset });
   return pieces.filter((piece) => piece.text.length > 0);
 }
-
-/**
- * Убирает из цитаты метки подсветки — для выгрузки и для заголовков окна.
- *
- * @param quote Цитата с метками подсветки.
- * @returns Текст цитаты без меток.
- */
-export function stripHighlight(quote: string): string {
-  return quote.split(HIGHLIGHT_START).join('').split(HIGHLIGHT_STOP).join('');
-}

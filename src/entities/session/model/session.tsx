@@ -2,14 +2,12 @@
 
 import { createContext, type ReactNode, useContext, useEffect, useMemo, useState } from 'react';
 import { ApiError, request } from '@/shared/api';
-import { loadConfig, type RuntimeConfig } from '@/shared/config';
+import { loadConfig } from '@/shared/config';
 import { issueAudioTicket } from '../api/audio-ticket';
 import { isOpenMode, startLogin, takeAuthError } from '../lib/auth';
 import type { MeResponse } from './types';
 
 /** Права закрытым набором: опечатка в проверке должна быть отказом. */
-export const PERM_SEARCH = 'search';
-export const PERM_REVEAL_PII = 'reveal_pii';
 export const PERM_DOWNLOAD_AUDIO = 'download_audio';
 export const PERM_EXPORT = 'export';
 /** Оценки звонков по скрипту и сводка по сотрудникам. */
@@ -19,7 +17,7 @@ export const PERM_ADMIN = 'admin';
 export type SessionState =
   | { status: 'loading' }
   | { status: 'anonymous'; error: string | null }
-  | { status: 'ready'; me: MeResponse; config: RuntimeConfig }
+  | { status: 'ready'; me: MeResponse }
   | { status: 'failed'; error: string };
 
 export type Session = SessionState & {
@@ -84,7 +82,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         await issueAudioTicket().catch((error) => {
           console.warn('speech: не удалось выдать куку для аудио', error);
         });
-        if (!cancelled) setState({ status: 'ready', me, config });
+        if (!cancelled) setState({ status: 'ready', me });
       } catch (error) {
         if (cancelled) return;
         if (error instanceof ApiError && error.kind === 'unauthorized') {

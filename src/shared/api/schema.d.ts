@@ -562,30 +562,6 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
-    "/api/v1/calls/{call_id}/reveal": {
-        parameters: {
-            query?: never;
-            header?: never;
-            path?: never;
-            cookie?: never;
-        };
-        get?: never;
-        put?: never;
-        /**
-         * Reveal
-         * @description Показать исходный текст реплик звонка (PLY-05).
-         *
-         *     Запись в журнал идёт **до** ответа и в той же транзакции: раскрытие,
-         *     случившееся без записи о нём, — это то самое, ради чего журнал заведён.
-         *     Раскрытый текст в журнал при этом не попадает, только факт (AUT-03).
-         */
-        post: operations["reveal_api_v1_calls__call_id__reveal_post"];
-        delete?: never;
-        options?: never;
-        head?: never;
-        patch?: never;
-        trace?: never;
-    };
     "/api/v1/classifier": {
         parameters: {
             query?: never;
@@ -685,8 +661,8 @@ export interface paths {
          *     с ней, а не с экраном. Поэтому и `source` здесь тот же, с тем же умолчанием
          *     `ncc` (S-35): без него выгрузка со вкладки Телфина принесла бы звонки NCC.
          *
-         *     Цитата в файл идёт **замаскированная** — та же, что на экране. Выгрузка не
-         *     расширяет доступ: у неё своё право, но не свои данные.
+         *     Цитата в файл идёт та же, что на экране. Выгрузка не расширяет доступ: у
+         *     неё своё право, но не свои данные.
          */
         get: operations["export_csv_api_v1_export_get"];
         put?: never;
@@ -814,7 +790,7 @@ export interface paths {
          *
          *     Охват — тот же, что у сводки: период и сотрудник. Каждый запрос — новая
          *     случайная выборка. В файле оценка модели по каждому этапу, её пояснение,
-         *     реплики-основания и полный обезличенный текст разговоров; что куда
+         *     реплики-основания и полный текст разговоров; что куда
          *     ложится — в `app.speech.quality_review`.
          *
          *     `403` — нет права `export`: оценки человек видит, а файл наружу не выносит.
@@ -961,9 +937,8 @@ export interface paths {
          * Stats
          * @description KPI периода и десять главных тем (SRC-07, SRC-08).
          *
-         *     «Расшифровано» считается по `masked_at`, а не по наличию транскрипта:
-         *     расшифрованный, но не обезличенный звонок в поиск не попадает, и объявлять
-         *     его доступным значило бы обещать пользователю то, чего он не найдёт.
+         *     «Расшифровано» — звонки, у которых есть расшифровка: с этого момента текст
+         *     находится поиском и открывается в карточке.
          *
          *     `source` — тот же, что у выдачи (S-35): KPI над списком Телфина, посчитанные
          *     по NCC, описывали бы не тот список.
@@ -1066,7 +1041,7 @@ export interface components {
             changed: number;
             /**
              * Contract Version
-             * @default 2.4
+             * @default 3.0
              */
             contract_version: string;
             /** Detail */
@@ -1079,7 +1054,7 @@ export interface components {
         AudioTicketResponse: {
             /**
              * Contract Version
-             * @default 2.4
+             * @default 3.0
              */
             contract_version: string;
             /** Expires In */
@@ -1091,7 +1066,7 @@ export interface components {
         AuditResponse: {
             /**
              * Contract Version
-             * @default 2.4
+             * @default 3.0
              */
             contract_version: string;
             /** Items */
@@ -1149,7 +1124,7 @@ export interface components {
             call_id: string;
             /**
              * Contract Version
-             * @default 2.4
+             * @default 3.0
              */
             contract_version: string;
             /**
@@ -1210,7 +1185,7 @@ export interface components {
             call_reason_label?: string | null;
             /**
              * Contract Version
-             * @default 2.4
+             * @default 3.0
              */
             contract_version: string;
             /** Direction */
@@ -1310,7 +1285,7 @@ export interface components {
         ClassificationResponse: {
             /**
              * Contract Version
-             * @default 2.4
+             * @default 3.0
              */
             contract_version: string;
             /** Items */
@@ -1320,7 +1295,7 @@ export interface components {
         ClassifierAdminResponse: {
             /**
              * Contract Version
-             * @default 2.4
+             * @default 3.0
              */
             contract_version: string;
             /** Items */
@@ -1403,7 +1378,7 @@ export interface components {
         ClassifierResponse: {
             /**
              * Contract Version
-             * @default 2.4
+             * @default 3.0
              */
             contract_version: string;
             /** Items */
@@ -1471,7 +1446,7 @@ export interface components {
             calls: number;
             /**
              * Contract Version
-             * @default 2.4
+             * @default 3.0
              */
             contract_version: string;
             /**
@@ -1560,7 +1535,7 @@ export interface components {
          * @description Этапы конвейера. Порядок здесь — это порядок выполнения.
          * @enum {string}
          */
-        JobKind: "ingest" | "transcribe" | "mask" | "analyze";
+        JobKind: "ingest" | "transcribe" | "analyze";
         /**
          * JobLane
          * @description Полосы обработки.
@@ -1617,7 +1592,7 @@ export interface components {
         JobsResponse: {
             /**
              * Contract Version
-             * @default 2.4
+             * @default 3.0
              */
             contract_version: string;
             /** Items */
@@ -1645,7 +1620,7 @@ export interface components {
             auth_mode: string;
             /**
              * Contract Version
-             * @default 2.4
+             * @default 3.0
              */
             contract_version: string;
             /** Display Name */
@@ -1673,7 +1648,7 @@ export interface components {
         OptionsResponse: {
             /**
              * Contract Version
-             * @default 2.4
+             * @default 3.0
              */
             contract_version: string;
             /** Items */
@@ -1683,7 +1658,7 @@ export interface components {
         PipelineResponse: {
             /**
              * Contract Version
-             * @default 2.4
+             * @default 3.0
              */
             contract_version: string;
             /**
@@ -1775,7 +1750,7 @@ export interface components {
         ProjectsAdminResponse: {
             /**
              * Contract Version
-             * @default 2.4
+             * @default 3.0
              */
             contract_version: string;
             /** Items */
@@ -1880,7 +1855,7 @@ export interface components {
         QualityCallsResponse: {
             /**
              * Contract Version
-             * @default 2.4
+             * @default 3.0
              */
             contract_version: string;
             /** Items */
@@ -2042,7 +2017,7 @@ export interface components {
             calls: number;
             /**
              * Contract Version
-             * @default 2.4
+             * @default 3.0
              */
             contract_version: string;
             /** Evaluated */
@@ -2117,40 +2092,6 @@ export interface components {
             /** Text */
             text: string;
         };
-        /** RevealResponse */
-        RevealResponse: {
-            /**
-             * Call Id
-             * Format: uuid
-             */
-            call_id: string;
-            /**
-             * Contract Version
-             * @default 2.4
-             */
-            contract_version: string;
-            /** Segments */
-            segments?: components["schemas"]["RevealedSegment"][];
-        };
-        /**
-         * RevealedSegment
-         * @description Реплика без маски.
-         *
-         *     Живёт здесь, а не рядом с ручкой раскрытия: это единственная модель, чьё
-         *     расширение выносит наружу больше персональных данных, и заметить такое
-         *     расширение проще там, где рядом лежит весь остальной контракт и куда смотрит
-         *     снимок (`tests/contract_registry.py`).
-         */
-        RevealedSegment: {
-            /** Pii Spans */
-            pii_spans?: {
-                [key: string]: unknown;
-            }[];
-            /** Seq */
-            seq: number;
-            /** Text Raw */
-            text_raw: string;
-        };
         /** SearchItemModel */
         SearchItemModel: {
             /** Ai Node Id */
@@ -2210,7 +2151,7 @@ export interface components {
         SearchResponse: {
             /**
              * Contract Version
-             * @default 2.4
+             * @default 3.0
              */
             contract_version: string;
             /** Items */
@@ -2239,9 +2180,7 @@ export interface components {
          * SegmentModel
          * @description Реплика в карточке звонка.
          *
-         *     `text` — **замаскированный** текст, и другого поля здесь нет. Исходный
-         *     отдаётся отдельным запросом с правом `reveal_pii` и записью в журнал
-         *     (AUT-03), а не полем, которое однажды попадёт в выдачу по недосмотру.
+         *     `text` — текст расшифровки как есть.
          *
          *     Когда карточка запрошена с `q`, найденное в этом же поле помечено
          *     управляющими символами `STX`/`ETX` — теми же, что в цитатах выдачи
@@ -2272,7 +2211,7 @@ export interface components {
         SettingsResponse: {
             /**
              * Contract Version
-             * @default 2.4
+             * @default 3.0
              */
             contract_version: string;
             /** Overridden */
@@ -2297,7 +2236,7 @@ export interface components {
         StatsResponse: {
             /**
              * Contract Version
-             * @default 2.4
+             * @default 3.0
              */
             contract_version: string;
             /** Processed */
@@ -2336,7 +2275,7 @@ export interface components {
         UsersResponse: {
             /**
              * Contract Version
-             * @default 2.4
+             * @default 3.0
              */
             contract_version: string;
             /** Items */
@@ -3016,37 +2955,6 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["CallQualityResponse"];
-                };
-            };
-            /** @description Validation Error */
-            422: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["HTTPValidationError"];
-                };
-            };
-        };
-    };
-    reveal_api_v1_calls__call_id__reveal_post: {
-        parameters: {
-            query?: never;
-            header?: never;
-            path: {
-                call_id: string;
-            };
-            cookie?: never;
-        };
-        requestBody?: never;
-        responses: {
-            /** @description Successful Response */
-            200: {
-                headers: {
-                    [name: string]: unknown;
-                };
-                content: {
-                    "application/json": components["schemas"]["RevealResponse"];
                 };
             };
             /** @description Validation Error */

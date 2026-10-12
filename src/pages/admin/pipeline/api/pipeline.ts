@@ -4,10 +4,6 @@ import { request } from '@/shared/api';
 import type { ActionResponse } from '@/widgets/admin-shell';
 import { adminKeys, useAdminMutation } from '@/widgets/admin-shell';
 
-export type LaneRow = Schemas['LaneRow'];
-
-export type DependencyRow = Schemas['DependencyRow'];
-
 export type PipelineResponse = Schemas['PipelineResponse'];
 
 /**
