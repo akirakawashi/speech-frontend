@@ -1,0 +1,43 @@
+/* --- Поиск ---------------------------------------------------------------- */
+.searchRow {
+  display: flex;
+  gap: var(--space-3);
+  align-items: stretch;
+  flex-wrap: wrap;
+}
+
+.input {
+  flex: 1 1 320px;
+  min-width: 0;
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-1);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-md);
+  font-size: var(--text-md);
+}
+
+.input::placeholder {
+  color: var(--text3);
+}
+
+.button {
+  padding: var(--space-3) var(--space-5);
+  background: var(--accent);
+  color: var(--text-on-accent);
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: var(--weight-semibold);
+  cursor: pointer;
+  transition: var(--transition-colors);
+}
+
+.button:hover {
+  background: var(--accent-bright);
+}
+
+.mode {
+  color: var(--text3);
+  font-size: var(--text-xs);
+  text-transform: lowercase;
+  letter-spacing: var(--tracking-caps);
+}

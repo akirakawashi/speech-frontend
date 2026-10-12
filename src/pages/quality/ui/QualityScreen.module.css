@@ -1,0 +1,46 @@
+.select:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+/* Закрытый список сотрудников выглядит как кнопка макета; раскрытый — системный. */
+.select {
+  min-width: 220px;
+  padding: 9px 14px;
+  background: var(--surface-1);
+  color: var(--text);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  font: inherit;
+  font-size: 13px;
+  color-scheme: dark;
+  cursor: pointer;
+}
+
+.select:hover {
+  border-color: var(--accent);
+}
+
+/* Блоки макета стоят парами и тянутся до одной высоты. */
+.rowTop,
+.rowMid {
+  display: grid;
+  align-items: stretch;
+  gap: 20px;
+}
+
+.rowTop {
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr);
+}
+
+.rowMid {
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+}
+
+/* --- Узкие экраны ---------------------------------------------------------- */
+@media (max-width: 1100px) {
+  .rowTop,
+  .rowMid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

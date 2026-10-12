@@ -1,0 +1,64 @@
+/* Разбор звонка: панель поверх экрана оценки.
+ *
+ * Слева — этапы скрипта с вердиктами, справа — разговор. Выбранный этап
+ * подсвечивает свои реплики справа, метка времени запускает запись с нужного
+ * места: оценку проверяют ушами, не уходя со страницы. */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  padding: 0;
+  background: rgba(4, 7, 12, 0.66);
+  border: none;
+  cursor: default;
+  animation: fadeIn var(--dur-3) var(--ease-out);
+}
+
+.backdropClosing {
+  animation: fadeOut var(--dur-2) var(--ease-in-out) forwards;
+}
+
+.panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 41;
+  display: flex;
+  flex-direction: column;
+  width: min(1180px, 96vw);
+  background: var(--surface-1);
+  border-left: 1px solid var(--border-strong);
+  box-shadow: var(--shadow-4);
+  outline: none;
+  animation: slideIn var(--dur-3) var(--ease-out);
+}
+
+/* Длительность выезда — та же, что у таймера закрытия в `CallReview.tsx`. */
+.panelClosing {
+  animation: slideOut var(--dur-2) var(--ease-in-out) forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slideOut {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+  }
+}

@@ -26,6 +26,12 @@ const MINIO_SECRET = process.env.SPEECH_E2E_MINIO_SECRET ?? 'speechroot-localtes
 const DATABASE = process.env.SPEECH_E2E_PG_DATABASE ?? 'speech';
 const USER = process.env.SPEECH_E2E_PG_USER ?? 'postgres';
 
+/**
+ * Выполняет запрос в базе стенда через `docker exec`.
+ *
+ * @param query Текст SQL.
+ * @returns Вывод `psql` без заголовков и выравнивания.
+ */
 function sql(query: string): string {
   return execFileSync(
     'docker',
@@ -45,6 +51,14 @@ function sql(query: string): string {
  */
 const SAFE_TOKEN = /^[A-Za-z0-9_.:/-]+$/;
 
+/**
+ * Проверяет, что значение можно подставить в текст SQL.
+ *
+ * @param value Подставляемое значение.
+ * @param label Что это за значение — для текста ошибки.
+ * @returns То же значение.
+ * @throws {Error} В значении есть символы, меняющие смысл запроса.
+ */
 function safe(value: string, label: string): string {
   if (!SAFE_TOKEN.test(value)) {
     throw new Error(`${label}: недопустимая форма значения для SQL: ${JSON.stringify(value)}`);
@@ -53,7 +67,7 @@ function safe(value: string, label: string): string {
 }
 
 /**
- * Вызвать `mc` внутри контейнера MinIO — без оболочки и без секрета в аргументах.
+ * Вызывает `mc` внутри контейнера MinIO — без оболочки и без секрета в аргументах.
  *
  * Раньше реквизиты уходили строкой в `sh -c "mc alias set …"`: значения из
  * окружения попадали в текст оболочки (любой спецсимвол в них становился
@@ -61,6 +75,9 @@ function safe(value: string, label: string): string {
  * адрес с реквизитами — переменной `MC_HOST_e2e` окружения дочернего процесса:
  * `docker exec -e MC_HOST_e2e` без значения берёт его оттуда, и в аргументах
  * `docker` секрета нет.
+ *
+ * @param args Аргументы команды `mc`.
+ * @param timeout Сколько миллисекунд ждать завершения.
  */
 function mc(args: string[], timeout: number): void {
   const auth = `${encodeURIComponent(MINIO_KEY)}:${encodeURIComponent(MINIO_SECRET)}`;
@@ -72,11 +89,14 @@ function mc(args: string[], timeout: number): void {
 }
 
 /**
- * Пометить одну запись удалённой по сроку и вернуть функцию отката.
+ * Помечает одну запись удалённой по сроку хранения.
  *
  * Возвращается именно откат, а не «ещё один запрос на потом»: тест обязан
  * оставить стенд таким, каким взял. Звонок выбирается по наибольшей дате —
  * первая страница выдачи отсортирована по ней, и искать его не придётся.
+ *
+ * @returns Идентификатор сессии звонка и функция, которая возвращает записи прежнее состояние.
+ * @throws {Error} На стенде нет ни одного звонка с сохранённой записью.
  */
 export function markOneRecordingDeleted(): { sessionId: string; restore: () => void } {
   const row = sql(
@@ -102,12 +122,15 @@ export function markOneRecordingDeleted(): { sessionId: string; restore: () => v
 }
 
 /**
- * Звонок, в котором маскировка действительно что-то нашла.
+ * Находит звонок, в котором маскировка действительно что-то нашла.
  *
  * Раньше тест маскировки открывал звонок поиском по слову из сидового набора и
  * ждал в нём заранее известный телефон. На настоящей выгрузке не совпало ни то
  * ни другое — а проверяется здесь поведение интерфейса, а не то, чей номер
  * назвали в разговоре.
+ *
+ * @returns Идентификатор звонка.
+ * @throws {Error} На стенде нет ни одной обезличенной реплики.
  */
 export function aCallWithMasking(): string {
   const id = sql(
@@ -121,10 +144,13 @@ export function aCallWithMasking(): string {
 }
 
 /**
- * Пометить одну запись отсутствующей у источника и вернуть функцию отката.
+ * Помечает одну запись отсутствующей у источника.
  *
  * Отдельно от «удалена по сроку»: интерфейс обязан различать эти два случая, и
  * тест, проверяющий один текст, не должен опираться на другой.
+ *
+ * @returns Идентификатор звонка и функция, которая возвращает записи прежнее состояние.
+ * @throws {Error} На стенде нет ни одного звонка с записью.
  */
 export function markOneRecordingMissing(): { callId: string; restore: () => void } {
   const found = sql(
@@ -145,7 +171,7 @@ export function markOneRecordingMissing(): { callId: string; restore: () => void
 }
 
 /**
- * Завести запись длиннее получаса и вернуть функцию отката.
+ * Заводит на стенде запись длиннее получаса.
  *
  * Это единственная фикстура набора, которая создаёт файл, а не помечает
  * существующий: критерий готовности SP-505 назван в минутах — перемотка на
@@ -158,6 +184,10 @@ export function markOneRecordingMissing(): { callId: string; restore: () => void
  *
  * Раньше эта запись жила в `scratchpad/seed_audio.py` — то есть держалась на
  * том, что кто-то не забыл её положить. Теперь её кладёт и убирает сам тест.
+ *
+ * @param minutes Длительность записи в минутах.
+ * @returns Идентификатор звонка и функция, которая убирает запись и её строку.
+ * @throws {Error} Длительность не целое число минут или фикстура не получила идентификатор звонка.
  */
 export function ensureLongRecording(minutes = 35): { callId: string; restore: () => void } {
   if (!Number.isInteger(minutes) || minutes <= 0) {
@@ -231,7 +261,7 @@ const PROBE_ROOT = 'e2e-probe-root';
 const PROBE_NODE = 'e2e-probe-node';
 
 /**
- * Узел классификатора, заведённый тестом, и откат, который его убирает (SP-310).
+ * Заводит на стенде проверочный узел классификатора (SP-310).
  *
  * Узел стоит под **выключенным** корнем: выключенная ветка не попадает в дерево
  * для модели, поэтому переключение узла под ней не меняет того, что видит анализ
@@ -240,10 +270,15 @@ const PROBE_NODE = 'e2e-probe-node';
  *
  * Откат вызывается и **до** сценария: прогон, упавший в середине прошлого раза,
  * иначе оставил бы ветку, и вставка упала бы на повторном ключе.
+ *
+ * @returns Название узла и функция, которая убирает проверочную ветку.
  */
 export function aProbeClassifierNode(): { label: string; remove: () => void } {
   const root = safe(PROBE_ROOT, 'корень проверочной ветки');
   const label = safe(PROBE_NODE, 'проверочный узел');
+  /**
+   * Убирает проверочную ветку классификатора и её следы в журнале.
+   */
   const remove = () => {
     sql(
       "DELETE FROM speech_audit_events WHERE event_type = 'classifier.toggle' " +
@@ -269,7 +304,7 @@ export function aProbeClassifierNode(): { label: string; remove: () => void } {
 }
 
 /**
- * Звонок, который сервис согласится переобработать, и возврат его заданий.
+ * Готовит звонок, который сервис согласится переобработать.
  *
  * Переобработка отказывает звонку с незавершёнными заданиями — и правильно
  * отказывает: она бы их продублировала. На стенде, где целый этап заблокирован
@@ -281,6 +316,8 @@ export function aProbeClassifierNode(): { label: string; remove: () => void } {
  * `row_to_json`, возврат идёт `json_populate_recordset`. Заодно убирается всё,
  * что успела наделать сама переобработка: стенд обязан остаться таким, каким
  * его взяли.
+ *
+ * @returns Идентификатор звонка и функция, которая возвращает его задания на место.
  */
 export function aCallReadyForReprocess(): { callId: string; restore: () => void } {
   const callId = safe(aCallWithMasking(), 'идентификатор звонка');
@@ -305,12 +342,15 @@ export function aCallReadyForReprocess(): { callId: string; restore: () => void 
 }
 
 /**
- * Снимок одной настройки и возврат её ровно в прежнее состояние.
+ * Запоминает одну настройку стенда.
  *
  * Вернуть значение через интерфейс недостаточно: «задано» на этом экране
  * означает «в базе есть строка», и настройка, которой никто не задавал, после
  * прогона осталась бы закреплённой. Разница не косметическая — закреплённое
  * значение переживёт смену умолчания, а незакреплённое поедет вслед за ним.
+ *
+ * @param key Ключ настройки.
+ * @returns Функция, которая возвращает настройку ровно в прежнее состояние.
  */
 export function snapshotSetting(key: string): () => void {
   const setting = safe(key, 'ключ настройки');

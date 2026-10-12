@@ -12,6 +12,9 @@ Set-Location (Split-Path -Parent $PSScriptRoot)
 $steps = @(
     @{ Name = 'типы';    Command = { pnpm exec tsc --noEmit } },
     @{ Name = 'стиль';   Command = { pnpm exec biome check } },
+    @{ Name = 'слои';    Command = { pnpm exec steiger ./src } },
+    @{ Name = 'докстринги'; Command = { node scripts/check-docs.mjs } },
+    @{ Name = 'классы';  Command = { node scripts/check-styles.mjs } },
     @{ Name = 'тесты';   Command = { pnpm exec vitest run } },
     @{ Name = 'сборка';  Command = { pnpm exec next build } }
 )

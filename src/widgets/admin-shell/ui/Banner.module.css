@@ -1,0 +1,14 @@
+/* --- Состояния ------------------------------------------------------------ */
+.banner {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--accent-line);
+  background: var(--accent-bg);
+  color: var(--text);
+  font-size: var(--text-sm);
+}
+
+.error {
+  border-color: var(--red);
+  background: rgba(255, 77, 109, 0.1);
+}

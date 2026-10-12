@@ -1,0 +1,58 @@
+/* --- Основные темы ---------------------------------------------------------- */
+.tilesBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tile {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 84px;
+  height: 100%;
+  padding: 14px;
+  background: var(--surface-2);
+  color: var(--text-control);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 12px;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.tile:hover {
+  border-color: var(--accent);
+}
+
+.tile:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+.tileValue {
+  color: var(--text-strong);
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.tileTrail {
+  color: var(--text3);
+  font-size: 11px;
+}
+
+@media (max-width: 1100px) {
+  .tiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

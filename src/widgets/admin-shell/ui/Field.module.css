@@ -1,0 +1,11 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 150px;
+}
+
+.label {
+  color: var(--text2);
+  font-size: var(--text-xs);
+}

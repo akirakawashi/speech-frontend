@@ -1,14 +1,17 @@
 # Speech Analytics — фронтенд
 
-Интерфейс поиска по расшифровкам разговоров колл-центра. Отдельный репозиторий
-(решение S-06); бэкенд — `speech-ms` в `aicistent-backend`.
+Интерфейс речевой аналитики колл-центра: дашборд обращений, поиск по
+расшифровкам разговоров, оценка разговоров по скрипту и администрирование.
+Отдельный репозиторий (решение S-06); бэкенд — `speech-backend`.
 
-Проектная документация: `aicistent-documentation/speech-analytics/`.
+Код разложен по Feature-Sliced Design: [docs/architecture.md](docs/architecture.md).
+Правила работы с кодом — [AGENTS.md](AGENTS.md).
 
 ## Стек
 
 Next.js 15 App Router, React 19, TypeScript strict, Biome, Vitest, Playwright,
-TanStack Query, CSS Modules поверх токенов из `src/app/globals.css`.
+TanStack Query, CSS Modules поверх токенов из `src/app/styles/globals.css`,
+Steiger для проверки слоёв.
 
 ## Конфигурация — в рантайме, не в бандле
 
@@ -34,9 +37,8 @@ TanStack Query, CSS Modules поверх токенов из `src/app/globals.cs
 
 ```bash
 pnpm install
-pnpm api:types      # типы из ../aicistent-backend/openapi.speech.json
 pnpm dev            # http://127.0.0.1:3000
-pnpm typecheck && pnpm lint && pnpm test
+pnpm check          # типы, стиль, слои, докстринги, классы, тесты и сборка
 ```
 
 Нужен поднятый `speech-ms`. Настройки берутся из `.env.local` (скопируй из
@@ -51,7 +53,8 @@ docker network connect local_data speech-ms-dev   # если Postgres в это�
 pnpm dev   # http://127.0.0.1:3000
 ```
 
-`/api/...` пробрасывает сам фронт — обработчик `src/app/api/[...path]/route.ts`,
+`/api/...` пробрасывает сам фронт — обработчик `app/api/[...path]/route.ts`
+(логика — в `src/app/api-routes/api-proxy.ts`),
 адрес `speech-ms` берётся из `SPEECH_API_PROXY_TARGET` в момент запроса. Так и в
 разработке, и в контейнере: 2026-09-15 эксплуатация опубликовала
 `speech.ic-group.ru` целиком на порт фронта, а своего прокси перед ним нет.
@@ -104,7 +107,7 @@ pnpm dev   # http://127.0.0.1:3000
   собирает доступное имя из всего содержимого метки, включая тексты вариантов
   выпадающего списка: «Этаплюбойприёмрасшифровка…». У поля ввода этого не видно
   — у него нет содержимого, — поэтому ошибка доживает до первого `<select>`.
-  Общий `Field` в `components/admin/shared.tsx` делает это правильно.
+  Общий `Field` в `src/widgets/admin-shell/ui/Field.tsx` делает это правильно.
 * **`ActionResponse.detail` — машинное поле, а не сообщение.** У переобработки
   там код этапа, у остальных действий `null`. Показывать его в баннере нельзя;
   текст собирается из `changed`.
@@ -179,8 +182,15 @@ pnpm e2e
 
 ## Типы API
 
-`src/api/schema.d.ts` порождается из `openapi.speech.json` бэкенда и в правках
-руками не нуждается. Схема выгружается на стороне бэкенда:
+`src/shared/api/schema.d.ts` порождается из `openapi.speech.json` бэкенда и в правках
+руками не нуждается: `pnpm api:types` читает `../speech-backend/openapi.speech.json`.
+
+Сейчас в репозитории лежит схема контракта 2.4, а в `speech-backend` — контракт
+3.0 без обезличивания. Перегенерация уберёт типы раскрытия скрытого, и вместе с
+ней надо убирать код, который на них опирается: см. «Что отложено» в
+[docs/architecture.md](docs/architecture.md).
+
+Схема выгружается на стороне бэкенда:
 
 ```bash
 python -c "import json;from app.core.config import Settings;from app.speech_service.main import create_app;json.dump(create_app(Settings(_env_file=None, app_env='local', speech_auth_mode='open')).openapi(), open('openapi.speech.json','w',encoding='utf-8'), ensure_ascii=False, indent=2, sort_keys=True)"
@@ -189,6 +199,6 @@ python -c "import json;from app.core.config import Settings;from app.speech_serv
 ## Сборка
 
 ```bash
-docker build -t aicistent-speech-frontend:local .
-docker run --rm -p 3000:3000 -e SPEECH_AUTH_MODE=open aicistent-speech-frontend:local
+docker build -t speech-frontend:local .
+docker run --rm -p 3000:3000 -e SPEECH_AUTH_MODE=open speech-frontend:local
 ```

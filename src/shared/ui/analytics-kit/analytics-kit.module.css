@@ -1,0 +1,218 @@
+/* Экран «Оценка качества».
+ *
+ * Раскладка, размеры и цвета сняты с макета заказчика
+ * (`design_handoff_call_analytics`): страница, панель вкладки, строка охвата,
+ * недели рядом с этапами, возражения рядом с итогом звонка, итог словами,
+ * сотрудники. Ниже — наше: разряды звонков и список с отбором.
+ *
+ * Фон, поверхности и рамки — приложения, те же, что на «Диалогах»: экран не
+ * должен выглядеть чужим рядом с соседней вкладкой (решение владельца
+ * 06.10.2026). От макета остались раскладка, размеры, акцент, цвета текста,
+ * шкала оценки и шрифт — они действуют только здесь. Переопределены сами
+ * токены, поэтому блоки, написанные на них, — список звонков и разбор —
+ * меняются вместе с экраном, без второй копии стилей. */
+.page {
+  /* Лестница поверхностей `--surface-*` и рамки `--border*` не переопределяются:
+     страница, карточки и поля — в цветах приложения. Здесь только имена мест
+     макета, привязанные к этой лестнице. */
+  --panel: var(--surface-1);
+  --track: var(--surface-4);
+  --divider: var(--border);
+
+  --text: #f2f4f5;
+  --text2: #8b9198;
+  --text3: #6b7280;
+  --text-strong: #ffffff;
+  --text-soft: #e4e6e8;
+  --text-control: #c3c8cd;
+  --text-on-accent: #06231b;
+
+  --accent: #2ee6b8;
+  --accent-bright: #5cf0cf;
+  /* Заливка выбранного — прозрачным акцентом: ложится на любую поверхность. */
+  --accent-bg: rgba(46, 230, 184, 0.08);
+  --accent-bg-strong: rgba(46, 230, 184, 0.16);
+  --accent-line: rgba(46, 230, 184, 0.45);
+  --ring: 0 0 0 2px var(--surface-0), 0 0 0 4px var(--accent);
+  --ring-inset: inset 0 0 0 2px var(--accent);
+
+  /* Шкала оценки — только на этом экране: от 85 хорошо, от 70 внимание. */
+  --score-good: #34c795;
+  --score-fair: #e0a83e;
+  --score-poor: #e2685f;
+  --red: var(--score-poor);
+  --yellow: var(--score-fair);
+
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: ui-monospace, monospace;
+
+  /* Вкладки разделов: текст неактивной вкладки в макете светлее вторичного. */
+  --tab-text: var(--text-control);
+
+  min-height: 100vh;
+  padding: 40px 0 96px;
+  background: var(--surface-0);
+  color: var(--text);
+  font-family: var(--font-sans);
+}
+
+.shell {
+  display: flex;
+  flex-direction: column;
+  gap: 52px;
+  max-width: 1504px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+}
+
+.kicker {
+  margin: 0;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 4px 0 6px;
+  color: var(--text-strong);
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+
+.notice {
+  margin: 0;
+  padding: 20px;
+  color: var(--text2);
+  font-size: 13px;
+}
+
+.alert {
+  color: var(--score-poor);
+}
+
+/* --- Панель вкладки -------------------------------------------------------- */
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 1440px;
+  max-width: 100%;
+  padding: 36px 40px 44px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 24px 64px -24px rgba(0, 0, 0, 0.6);
+}
+
+/* --- Охват: период и сотрудники ------------------------------------------- */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.filterLabel {
+  margin-right: 2px;
+  color: var(--text3);
+  font-size: 12px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+/* --- Карточка блока ------------------------------------------------------- */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  padding: 18px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.cardHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.cardTitle {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.hint {
+  margin: 0;
+  color: var(--text3);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* Малая кнопка в шапке блока: возврат к периоду. */
+.ghost {
+  padding: 6px 12px;
+  background: none;
+  color: var(--text-control);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.ghost:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.ghost:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+/* После `:hover`: у выключенной кнопки наведение ничего не подсвечивает. */
+.ghost:disabled {
+  color: var(--text-control);
+  border-color: var(--border2);
+  opacity: 0.5;
+  cursor: default;
+}
+
+@media (max-width: 720px) {
+  .page {
+    padding: 24px 0 64px;
+  }
+
+  .shell {
+    gap: 28px;
+    padding: 0 16px;
+  }
+
+  .panel {
+    padding: 20px 16px 28px;
+  }
+
+  .spacer {
+    flex-basis: 100%;
+    height: 0;
+  }
+}

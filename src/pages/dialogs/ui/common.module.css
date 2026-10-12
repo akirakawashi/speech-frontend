@@ -1,0 +1,45 @@
+.ghost {
+  padding: var(--space-3) var(--space-4);
+  background: transparent;
+  color: var(--text2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition-colors);
+}
+
+.ghost:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+.ghost:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+/*
+  Включённое «всё время». Кнопка — переключатель, и её состояние обязано быть
+  видно: иначе пустые поля дат читаются как «период не выбран», а не как
+  «период снят нарочно».
+*/
+.ghostActive {
+  composes: ghost;
+  color: var(--text);
+  border-color: var(--accent);
+  /* Было `var(--surface2, transparent)` -- переменной с таким именем в
+     globals.css нет (там `--surface-2`), и фон всегда был прозрачным:
+     включённый режим отличался только цветом рамки. Найдено сверкой 2026-09-18.
+     Акцентная подложка, а не нейтральная поверхность: кнопка -- переключатель,
+     и «включено» должно читаться с первого взгляда. */
+  background: var(--accent-bg);
+}
+
+.control {
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  min-width: 8rem;
+}

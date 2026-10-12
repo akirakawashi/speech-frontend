@@ -1,0 +1,9 @@
+.link {
+  color: var(--text2);
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.link:hover {
+  color: var(--accent);
+}

@@ -1,0 +1,134 @@
+/* --- Итоги и список ------------------------------------------------------- */
+.summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  color: var(--text2);
+  font-size: var(--text-sm);
+}
+
+.strong {
+  color: var(--text);
+  font-weight: var(--weight-medium);
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* --- Состояния ------------------------------------------------------------ */
+.state {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-12) var(--space-6);
+  background: var(--surface-1);
+  border: 1px dashed var(--border2);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  color: var(--text2);
+}
+
+.stateTitle {
+  color: var(--text);
+  font-size: var(--text-lg);
+}
+
+.examples {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  justify-content: center;
+}
+
+.banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  padding: var(--space-3) var(--space-4);
+  background: var(--accent-bg);
+  border: 1px solid var(--accent-line);
+  border-radius: var(--radius-md);
+  color: var(--text);
+  font-size: var(--text-sm);
+}
+
+.error {
+  background: rgba(255, 77, 109, 0.08);
+  border-color: var(--danger);
+}
+
+/* Скелетоны, а не спиннер: спиннер сообщает «ждите», скелетон — «здесь будут
+   карточки», и переход к данным не дёргает раскладку (SRC-06, состояние 03). */
+.skeleton {
+  height: 104px;
+  background: linear-gradient(
+    90deg,
+    var(--surface-2) 0%,
+    var(--surface-3) 50%,
+    var(--surface-2) 100%
+  );
+  background-size: 200% 100%;
+  border-radius: var(--radius-lg);
+  animation: shimmer var(--dur-3) linear infinite alternate;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 0% 0;
+  }
+  to {
+    background-position: 100% 0;
+  }
+}
+
+/* --- Список и панель ------------------------------------------------------ */
+/* Пропорция из макета: выдача шире панели, но панель не превращается в
+   колонку-полоску. Обе колонки — часть контента, а не окна. */
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-width: 0;
+}
+
+/* Панель липнет к верху при прокрутке и не выше экрана: иначе длинный
+   транскрипт уводил бы её нижний край за пределы окна, и до плеера пришлось
+   бы прокручивать обратно. */
+.panelSlot {
+  position: sticky;
+  top: var(--space-4);
+  min-width: 0;
+  max-height: calc(100vh - var(--space-8));
+  display: flex;
+}
+
+/* Узкий экран: две колонки по триста пикселей — это ни одной. Панель встаёт
+   над выдачей, а не прячет её: спрятанное нельзя закрыть, к нему можно только
+   вернуться назад. */
+@media (max-width: 1100px) {
+  .split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .panelSlot {
+    position: static;
+    max-height: none;
+    order: -1;
+  }
+}

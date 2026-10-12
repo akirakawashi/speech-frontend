@@ -16,6 +16,12 @@ import { aCallWithMasking, ensureLongRecording, markOneRecordingMissing } from '
  * принимается.
  */
 
+/**
+ * Открывает панель первого найденного разговора и ждёт его транскрипт.
+ *
+ * @param page Страница браузера.
+ * @param query Поисковый запрос, по которому ищется разговор.
+ */
 async function openFirstCall(page: Page, query = 'интернет'): Promise<void> {
   // `period=all`: проверяемое поведение панели от даты звонка не зависит, а
   // умолчание в тридцать дней отсекло бы любой корпус старше месяца.

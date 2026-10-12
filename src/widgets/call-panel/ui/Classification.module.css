@@ -1,0 +1,40 @@
+/* Классификация (SP-310): уровни ИИ и оператора друг против друга. */
+.classification {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.levels {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.levels th {
+  padding: var(--space-1) var(--space-2);
+  border-bottom: 1px solid var(--border);
+  color: var(--text2);
+  font-weight: var(--weight-medium);
+  text-align: left;
+}
+
+.levels td {
+  padding: var(--space-1) var(--space-2);
+  vertical-align: top;
+}
+
+/* Номер уровня и отметка — узкие колонки: читаются названия. */
+.levelNumber,
+.levelMark {
+  width: 1%;
+  color: var(--text3);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.match {
+  margin: 0;
+  color: var(--text2);
+  font-size: var(--text-sm);
+}

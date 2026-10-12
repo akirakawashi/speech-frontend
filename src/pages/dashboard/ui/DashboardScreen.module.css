@@ -1,0 +1,103 @@
+/* Дашборд. Каркас, карточки, календарь и токены текста — общие с «Оценкой
+ * качества» (`quality/quality.module.css`): экраны стоят соседними вкладками и
+ * не должны выглядеть чужими друг другу. Здесь — только своё: плитки, графики,
+ * правая колонка.
+ *
+ * Цвета тем — отдельная палитра, не акценты приложения. Она проверена на
+ * поверхности карточки (`--surface-2`): каждая пара соседних мест различима и
+ * при нарушениях цветового зрения, каждое место контрастно фону. Порядок мест
+ * менять нельзя — различимость проверялась именно для соседей. Палитра макета
+ * эту проверку не прошла: синий и фиолетовый в ней сливались.
+ */
+.board {
+  --series-1: #3987e5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+  --series-4: #c98500;
+  --series-5: #d55181;
+  --series-6: #008300;
+  --series-7: #9085e9;
+  /* «Прочее» — нейтральное: это не тема, а остаток. */
+  --series-other: #8b9198;
+  /* Негатив — цвет состояния, а не места в палитре: с темами не смешивается. */
+  --negative: #e2685f;
+  --negative-track: rgba(226, 104, 95, 0.2);
+
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
+}
+
+/* Пока идёт новый запрос, прежние числа остаются на месте, приглушёнными. */
+.stale {
+  opacity: 0.55;
+  transition: opacity 120ms;
+}
+
+.grain {
+  display: inline-flex;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.grainOption {
+  padding: 8px 14px;
+  background: none;
+  color: var(--text-control);
+  border: none;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.grainOption + .grainOption {
+  border-left: 1px solid var(--border2);
+}
+
+.grainOption:hover {
+  color: var(--accent);
+}
+
+.grainOption[aria-pressed="true"] {
+  background: var(--accent);
+  color: var(--text-on-accent);
+}
+
+.grainOption:focus-visible {
+  outline: none;
+  box-shadow: var(--ring-inset);
+}
+
+/* --- Сетка: графики и правая колонка ---------------------------------------- */
+.grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.8fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+@media (max-width: 1100px) {
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

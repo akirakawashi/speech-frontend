@@ -1,0 +1,45 @@
+/* --- Подтемы и детализация --------------------------------------------------- */
+.subtopics {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.subtopic {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 100px 44px 64px;
+  align-items: center;
+  gap: 14px;
+  color: var(--text-soft);
+  font-size: 13px;
+}
+
+.subtopicBar {
+  height: 6px;
+  background: var(--track);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.subtopicFill {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  border-radius: 6px;
+}
+
+.subtopic b {
+  color: var(--text-strong);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.subtopicCalls {
+  color: var(--text2);
+  font-size: 12px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}

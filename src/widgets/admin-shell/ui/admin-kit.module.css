@@ -1,0 +1,158 @@
+.link {
+  color: var(--text2);
+  text-decoration: none;
+  font-size: var(--text-sm);
+}
+
+.link:hover {
+  color: var(--accent);
+}
+
+/* --- Раздел --------------------------------------------------------------- */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+}
+
+.hint {
+  margin: 0;
+  color: var(--text2);
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+  max-width: 78ch;
+}
+
+/* --- Таблица -------------------------------------------------------------- */
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface-1);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.table th {
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  color: var(--text2);
+  font-weight: var(--weight-medium);
+  white-space: nowrap;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+}
+
+.table td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table tbody tr:hover {
+  background: var(--surface-hover);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text2);
+}
+
+.numeric {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+/* --- Формы и действия ----------------------------------------------------- */
+.filters {
+  display: flex;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.control {
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text);
+  font: inherit;
+  font-size: var(--text-sm);
+}
+
+.control:focus-visible {
+  outline: 2px solid var(--accent-line);
+  outline-offset: 1px;
+}
+
+.button {
+  padding: var(--space-2) var(--space-4);
+  background: var(--accent);
+  color: var(--text-on-accent);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font: inherit;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.button:hover:not(:disabled) {
+  background: var(--accent-bright);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.ghost {
+  padding: var(--space-2) var(--space-3);
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-md);
+  font: inherit;
+  font-size: var(--text-sm);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.ghost:hover:not(:disabled) {
+  background: var(--surface-hover);
+  border-color: var(--border-strong);
+}
+
+.ghost:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.rowActions {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.empty {
+  padding: var(--space-6);
+  color: var(--text2);
+  text-align: center;
+}

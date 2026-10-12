@@ -1,0 +1,29 @@
+/* Состояния заданий и полос: цвет несёт смысл, но не единственный — рядом
+   всегда стоит слово. Красное пятно без подписи ничего не сообщает тому, кто
+   не различает эти цвета. */
+.pill {
+  display: inline-block;
+  padding: 1px var(--space-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  border: 1px solid var(--border2);
+  white-space: nowrap;
+}
+
+.pillOk {
+  border-color: var(--accent-line);
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.pillWarn {
+  border-color: rgba(255, 209, 102, 0.4);
+  background: rgba(255, 209, 102, 0.1);
+  color: var(--yellow);
+}
+
+.pillBad {
+  border-color: rgba(255, 77, 109, 0.45);
+  background: rgba(255, 77, 109, 0.1);
+  color: var(--red);
+}

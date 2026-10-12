@@ -6,6 +6,11 @@ playwright-report
 test-results
 coverage
 *.md
+# Заглушка `pages/` обязана попасть в образ: без неё Next.js примет слой
+# `src/pages` за Pages Router и сборка упадёт. Сейчас `*.md` её и так не
+# задевает (шаблон действует только в корне); исключение — на случай, если
+# шаблон расширят.
+!pages/README.md
 # Local env files hold developer values. .env.local once put
 # SPEECH_DEV_API_PROXY_TARGET into the 2026-09-15 image, and the production
 # container forwarded /api to itself (500 on every call).

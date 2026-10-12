@@ -1,0 +1,120 @@
+.itemHead:focus-visible,
+.timeChip:focus-visible {
+  outline: none;
+  box-shadow: var(--ring-inset);
+}
+
+/* --- Этапы и возражения ---------------------------------------------------- */
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+}
+
+.itemPicked {
+  background: var(--accent-bg);
+  border-color: var(--accent-line);
+}
+
+.itemHead {
+  display: grid;
+  grid-template-columns: 1.25rem 1.75rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-2);
+  background: none;
+  color: var(--text);
+  border: none;
+  border-radius: var(--radius-sm);
+  font: inherit;
+  font-size: var(--text-sm);
+  line-height: var(--leading-snug);
+  text-align: left;
+  cursor: pointer;
+}
+
+.itemHead:hover {
+  background: var(--surface-hover);
+}
+
+.mark {
+  font-weight: var(--weight-bold);
+  text-align: center;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.done {
+  color: var(--accent);
+}
+
+.failed {
+  color: var(--red);
+}
+
+.skipped {
+  color: var(--text3);
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text3);
+}
+
+.tag {
+  display: inline-block;
+  margin-left: var(--space-2);
+  padding: 0 var(--space-2);
+  color: var(--text2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-full);
+  font-size: var(--text-2xs);
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.itemBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: 0 var(--space-2) var(--space-2) calc(3rem + var(--space-2) * 3);
+}
+
+.times {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.timeChip {
+  padding: 1px var(--space-2);
+  background: var(--surface-3);
+  color: var(--text2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-xs);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  cursor: pointer;
+}
+
+.timeChip:hover {
+  color: var(--text);
+  border-color: var(--accent-line);
+}

@@ -1,0 +1,22 @@
+/* --- Запись ---------------------------------------------------------------- */
+.player {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  border-bottom: 1px solid var(--border);
+}
+
+.range {
+  flex: 1 1 auto;
+  min-width: 80px;
+  accent-color: var(--accent);
+}
+
+.time {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--text2);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}

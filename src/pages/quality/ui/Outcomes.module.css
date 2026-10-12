@@ -1,0 +1,142 @@
+.good {
+  color: var(--score-good);
+}
+
+.fair {
+  color: var(--score-fair);
+}
+
+.poor {
+  color: var(--score-poor);
+}
+
+.fillGood {
+  background: var(--score-good);
+}
+
+.fillFair {
+  background: var(--score-fair);
+}
+
+.fillPoor {
+  background: var(--score-poor);
+}
+
+/* --- Итог звонка: круговая диаграмма --------------------------------------- */
+.donutBox {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+}
+
+/* Кольцо — конический градиент, середина закрыта кругом цвета карточки. */
+.donut {
+  position: relative;
+  flex: none;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+}
+
+.donutCenter {
+  position: absolute;
+  inset: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-2);
+  border-radius: 50%;
+  color: var(--text2);
+  font-size: 11px;
+}
+
+.donutCenter b {
+  color: var(--text-strong);
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+
+.donutLegend {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.legendRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: calc(100% + 16px);
+  margin: 0 -8px;
+  padding: 4px 8px;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.legendRow:hover {
+  background: var(--surface-hover);
+}
+
+.legendRow:focus-visible {
+  outline: none;
+  box-shadow: var(--ring-inset);
+}
+
+.legendRow[aria-pressed="true"] {
+  background: var(--accent-bg-strong);
+}
+
+.legendDot {
+  flex: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+}
+
+.legendLabel {
+  flex: 1;
+  color: var(--text-soft);
+  font-size: 13px;
+}
+
+.legendPct {
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Ссылка внутри сноски: итог вне диаграммы тоже фильтрует список. */
+.inlineButton {
+  padding: 0;
+  background: none;
+  color: var(--text-control);
+  border: none;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.inlineButton:hover,
+.inlineButton[aria-pressed="true"] {
+  color: var(--accent);
+}
+
+.inlineButton:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}

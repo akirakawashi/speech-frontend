@@ -1,0 +1,90 @@
+/* Карточка внутри контента, а не колонка во всю высоту окна. Полоса слева
+   («border-left») была признаком приклеенной к краю панели: карточка окружена
+   рамкой со всех сторон и подчиняется тем же полям, что и всё остальное. */
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: var(--space-5);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+}
+
+/* Идентификатор сессии длинный (`node_1_domain_2_nauss_0_1766092829_1263997`) и
+   в шапке занимал всю строку, оттесняя всё остальное. Он нужен для сверки с
+   источником (NCC или Телфин), поэтому остаётся — но обрезается, а целиком
+   читается по наведению. */
+.session {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text3);
+  min-width: 0;
+  max-width: 22ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.summary {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-2);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+}
+
+.counter {
+  color: var(--text2);
+  font-size: var(--text-sm);
+  white-space: nowrap;
+}
+
+.note {
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-2);
+  border: 1px dashed var(--border2);
+  border-radius: var(--radius-md);
+  color: var(--text2);
+  font-size: var(--text-sm);
+}
+
+.error {
+  border-style: solid;
+  border-color: var(--danger);
+  color: var(--text);
+}
+
+/* «Ссылка» и «Скачать» в шапке: действия над разговором, а не над
+   воспроизведением, и выглядят они не как кнопки плеера. */
+.link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text2);
+  font: inherit;
+  font-size: var(--text-sm);
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.link:hover {
+  color: var(--accent);
+}

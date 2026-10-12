@@ -1,0 +1,143 @@
+.good {
+  color: var(--score-good);
+}
+
+.fair {
+  color: var(--score-fair);
+}
+
+.poor {
+  color: var(--score-poor);
+}
+
+.fillGood {
+  background: var(--score-good);
+}
+
+.fillFair {
+  background: var(--score-fair);
+}
+
+.fillPoor {
+  background: var(--score-poor);
+}
+
+/* --- Корректность этапов --------------------------------------------------- */
+.periodNote {
+  margin: 0;
+  color: var(--text3);
+  font-size: 11px;
+}
+
+.periodNote b {
+  color: var(--text-control);
+}
+
+.stageRows {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Строка — кнопка: клик показывает звонки этапа в списке. Поля вокруг дают
+   место под выделение и вместе с зазором списка складываются в шаг макета. */
+.stageRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: calc(100% + 16px);
+  margin: 0 -8px;
+  padding: 4px 8px;
+  background: none;
+  border: none;
+  border-radius: 6px;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.stageRow:hover {
+  background: var(--surface-hover);
+}
+
+.stageRow:focus-visible {
+  outline: none;
+  box-shadow: var(--ring-inset);
+}
+
+.stageRow[aria-pressed="true"] {
+  background: var(--accent-bg-strong);
+}
+
+.num {
+  flex: none;
+  width: 22px;
+  color: var(--text3);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.stageLabel {
+  flex: none;
+  width: 200px;
+  color: var(--text-soft);
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.track {
+  position: relative;
+  flex: 1;
+  height: 7px;
+  min-width: 40px;
+  overflow: hidden;
+  background: var(--track);
+  border-radius: 6px;
+}
+
+.track span {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 6px;
+}
+
+.tag {
+  flex: none;
+  padding: 2px 8px;
+  color: var(--text2);
+  border: 1px solid var(--border2);
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.stagePct {
+  flex: none;
+  width: 40px;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 720px) {
+  .stageRow {
+    flex-wrap: wrap;
+  }
+
+  /* Название этапа — на всю строку, полоса и процент под ним. */
+  .stageLabel {
+    flex: 1 1 calc(100% - 34px);
+    width: auto;
+  }
+
+  .track {
+    flex-basis: 50%;
+  }
+}

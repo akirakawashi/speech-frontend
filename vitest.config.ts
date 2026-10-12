@@ -10,7 +10,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
-    setupFiles: ['./src/test/setup.ts'],
+    setupFiles: ['./vitest.setup.ts'],
     // Playwright живёт в `e2e/` и запускается своим бегунком; без исключения
     // vitest подхватывает его спеки и падает на первом же `test.describe`.
     exclude: ['node_modules/**', 'e2e/**', '.next/**'],

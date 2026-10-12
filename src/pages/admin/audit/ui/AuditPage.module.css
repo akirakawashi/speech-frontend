@@ -1,0 +1,9 @@
+.payload {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text2);
+  white-space: pre-wrap;
+  word-break: break-word;
+  max-width: 46ch;
+}

@@ -1,0 +1,50 @@
+/* --- Кнопки тем ------------------------------------------------------------- */
+.themes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.theme {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  padding: 12px 14px;
+  background: var(--surface-2);
+  color: var(--text-control);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: left;
+  cursor: pointer;
+}
+
+.theme:hover {
+  border-color: var(--accent-line);
+}
+
+.theme[aria-pressed="true"] {
+  background: var(--accent-bg-strong);
+  color: var(--text-strong);
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 0.5px var(--accent);
+}
+
+.theme:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+.themeName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

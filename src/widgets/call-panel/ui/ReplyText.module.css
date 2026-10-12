@@ -1,0 +1,29 @@
+.mark {
+  background: var(--accent-bg-strong);
+  color: var(--accent-bright);
+  border-radius: var(--radius-xs);
+  padding: 0 2px;
+}
+
+/* Маска штриховкой (PLY-05): скрытое должно быть видно как скрытое, а не
+   выглядеть частью текста. */
+.masked {
+  background: repeating-linear-gradient(
+    135deg,
+    var(--surface-4),
+    var(--surface-4) 3px,
+    var(--surface-3) 3px,
+    var(--surface-3) 6px
+  );
+  color: var(--text3);
+  border-radius: var(--radius-xs);
+  padding: 0 var(--space-1);
+  letter-spacing: 0.1em;
+}
+
+.revealed {
+  background: rgba(255, 209, 102, 0.14);
+  border-bottom: 1px dashed var(--warning);
+  color: var(--text);
+  padding: 0 2px;
+}

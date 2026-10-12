@@ -1,0 +1,14 @@
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  color: var(--text2);
+  font-size: var(--text-sm);
+}
+
+/* Источник звонка (S-35) ярче прочих полей строки: это не подробность
+   разговора, а ответ на вопрос «чей это звонок», с которого читается остальное. */
+.source {
+  color: var(--text);
+  font-weight: var(--weight-medium);
+}

@@ -1,0 +1,66 @@
+/* --- Полоса записи -------------------------------------------------------- */
+/* Волна. Полоски декоративные — настоящей огибающей у нас нет, считать её
+   пришлось бы на клиенте по всему файлу, ради картинки. Смысл полосы несут
+   метки совпадений и текущая позиция: по ним видно, где в разговоре нашлось
+   искомое, ещё до того, как что-то нажато. */
+.track {
+  position: relative;
+  /* `flex: none` обязателен: панель — колонка с прокруткой, и без него полоса
+     сжималась до нескольких пикселей, превращаясь в чёрточку, по которой
+     ничего не видно и не попасть. */
+  flex: none;
+  height: 48px;
+  background: repeating-linear-gradient(90deg, var(--surface-4) 0 2px, var(--surface-2) 2px 6px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.track:focus-visible {
+  outline: 2px solid var(--accent-line);
+  outline-offset: 1px;
+}
+
+.played {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--accent-bg-strong);
+  pointer-events: none;
+}
+
+/* Метка совпадения. Ширина минимальная, но не нулевая: на часовой записи
+   реплика занимает доли процента, и без минимума её было бы не видно. */
+.hit {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  min-width: 2px;
+  background: var(--accent);
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.hitCurrent {
+  opacity: 1;
+  top: 2px;
+  bottom: 2px;
+  box-shadow: var(--shadow-accent);
+}
+
+.cursor {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--text);
+  pointer-events: none;
+}
+
+.time {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--text2);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}

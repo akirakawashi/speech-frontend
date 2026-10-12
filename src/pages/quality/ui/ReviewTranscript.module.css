@@ -1,0 +1,77 @@
+.reply:focus-visible {
+  outline: none;
+  box-shadow: var(--ring-inset);
+}
+
+/* --- Разговор -------------------------------------------------------------- */
+.replies {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.reply {
+  display: grid;
+  grid-template-columns: 3rem 6.25rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: var(--space-3);
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  background: none;
+  color: var(--text);
+  border: 1px solid transparent;
+  border-left: 3px solid transparent;
+  border-radius: var(--radius-sm);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.reply:hover {
+  background: var(--surface-hover);
+}
+
+/* Реплика, которая сейчас звучит, и реплика выбранного этапа — разные вещи. */
+.replyPlaying {
+  background: var(--surface-2);
+  border-top-color: var(--border);
+  border-right-color: var(--border);
+  border-bottom-color: var(--border);
+}
+
+.replyPicked {
+  background: var(--accent-bg-strong);
+  border-top-color: var(--accent-line);
+  border-right-color: var(--accent-line);
+  border-bottom-color: var(--accent-line);
+}
+
+/* На эту реплику ссылается невыполненный этап. */
+.replyFlagged {
+  border-left-color: var(--red);
+}
+
+.replyTime {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text3);
+  font-variant-numeric: tabular-nums;
+}
+
+.role {
+  font-size: var(--text-xs);
+  color: var(--text3);
+}
+
+.roleOperator {
+  color: var(--accent2);
+}
+
+.roleClient {
+  color: var(--blue);
+}
+
+.text {
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}

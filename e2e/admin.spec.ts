@@ -14,6 +14,12 @@ import { aCallReadyForReprocess, aProbeClassifierNode, snapshotSetting } from '.
  * все роли. Это закрыто тестами сервиса — там, где решение и принимается.
  */
 
+/**
+ * Открывает экран администрирования и ждёт, пока раздел загрузится.
+ *
+ * @param page Страница браузера.
+ * @param section Адрес экрана внутри раздела: `pipeline`, `jobs` и так далее.
+ */
 async function openAdmin(page: Page, section: string): Promise<void> {
   await page.goto(`/admin/${section}`);
   await expect(page.getByRole('heading', { name: 'Администрирование' })).toBeVisible({

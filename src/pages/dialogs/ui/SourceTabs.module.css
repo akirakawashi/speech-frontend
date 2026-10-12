@@ -1,0 +1,40 @@
+/* --- Вкладки источника (S-35) ---------------------------------------------- */
+/* Те же вкладки, что в администрировании (`admin.module.css`): второй вид
+   вкладок в одном интерфейсе читался бы как второй вид чего-то. Кнопки, а не
+   ссылки: вкладка меняет состояние экрана так же, как фильтр. */
+.tabs {
+  display: flex;
+  gap: var(--space-1);
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: var(--space-2);
+}
+
+.tab {
+  padding: var(--space-2) var(--space-4);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-md);
+  color: var(--text2);
+  font-size: var(--text-sm);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: var(--transition-colors);
+}
+
+.tab:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+.tabActive {
+  background: var(--accent-bg);
+  color: var(--accent);
+  font-weight: var(--weight-medium);
+  cursor: default;
+}
+
+.tabActive:hover {
+  background: var(--accent-bg);
+  color: var(--accent);
+}

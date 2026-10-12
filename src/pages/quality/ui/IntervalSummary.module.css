@@ -1,0 +1,19 @@
+/* --- Итог по выбранному интервалу ----------------------------------------- */
+.summaryCard {
+  padding: 20px 22px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.summaryCard .summaryKicker {
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+.summaryText {
+  margin: 8px 0 0;
+  color: var(--text-soft);
+  font-size: 15px;
+  line-height: 1.6;
+}

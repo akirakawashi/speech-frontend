@@ -1,5 +1,5 @@
 {
-  "name": "aicistent-speech",
+  "name": "speech-frontend",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -13,12 +13,16 @@
     "start": "next start --port 3000",
     "lint": "biome check",
     "lint:fix": "biome check --write",
+    "lint:fsd": "steiger ./src",
+    "lint:docs": "node scripts/check-docs.mjs",
+    "lint:styles": "node scripts/check-styles.mjs",
+    "check": "pnpm typecheck && pnpm lint && pnpm lint:fsd && pnpm lint:docs && pnpm lint:styles && pnpm test && pnpm build",
     "format": "biome format --write",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
     "e2e": "playwright test",
-    "api:types": "openapi-typescript ../aicistent-backend/openapi.speech.json -o src/api/schema.d.ts",
+    "api:types": "openapi-typescript ../speech-backend/openapi.speech.json -o src/shared/api/schema.d.ts",
     "prepare": "husky"
   },
   "dependencies": {
@@ -29,6 +33,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.12",
+    "@feature-sliced/steiger-plugin": "^0.8.0",
     "@playwright/test": "^1.60.0",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.9.1",
@@ -41,6 +46,7 @@
     "husky": "^9.1.7",
     "jsdom": "^25.0.1",
     "openapi-typescript": "^7.4.4",
+    "steiger": "^0.7.0",
     "typescript": "^5.7.2",
     "vitest": "^2.1.8"
   }

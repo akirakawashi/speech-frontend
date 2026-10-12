@@ -1,0 +1,69 @@
+/* --- Возражения: карточки макета ------------------------------------------ */
+.objectionGrid {
+  display: grid;
+  flex: 1;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.objectionCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 16px 18px;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+/* Две строки под подпись: числа соседних карточек стоят на одной высоте. */
+.objectionLabel {
+  min-height: 34px;
+  color: var(--text-strong);
+  font-size: 12.5px;
+  line-height: 1.35;
+}
+
+/* Подпись у числа переносится под него, когда карточка узкая. */
+.objectionValue {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 8px;
+  color: var(--text3);
+  font-size: 11px;
+}
+
+.objectionValue b {
+  color: var(--text-strong);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.2;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Монохромно, как в макете: доля отработки — не балл, шкалы у неё нет. */
+.objectionBar {
+  display: block;
+  height: 6px;
+  overflow: hidden;
+  background: var(--track);
+  border-radius: 4px;
+}
+
+.objectionBar span {
+  display: block;
+  height: 100%;
+  background: var(--text-strong);
+}
+
+@media (max-width: 720px) {
+  .objectionGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

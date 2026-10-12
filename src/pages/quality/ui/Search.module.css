@@ -1,0 +1,180 @@
+.good {
+  color: var(--score-good);
+}
+
+.fair {
+  color: var(--score-fair);
+}
+
+.poor {
+  color: var(--score-poor);
+}
+
+/* --- Поиск по словам (макет, блок 3.5) ------------------------------------- */
+/* Строка поиска — поле и кнопка в одной рамке, как в макете. */
+.searchRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 8px 8px 18px;
+  background: var(--surface-1);
+  border: 1.5px solid var(--border2);
+  border-radius: 12px;
+}
+
+.searchRow:focus-within {
+  border-color: var(--accent);
+}
+
+.searchInput {
+  flex: 1 1 240px;
+  min-width: 0;
+  padding: 6px 0;
+  background: none;
+  color: var(--text);
+  border: 0;
+  outline: none;
+  font: inherit;
+  font-size: 16px;
+}
+
+.searchInput::placeholder {
+  color: var(--text3);
+}
+
+/* Фокус показывает рамка всей строки (`.searchRow:focus-within`). Общее кольцо
+   фокуса рисовало бы вторую, прямоугольную рамку внутри скруглённой. */
+.searchInput:focus-visible {
+  box-shadow: none;
+}
+
+.searchMode {
+  color: var(--text3);
+  font-size: 12px;
+}
+
+.searchGo {
+  padding: 9px 18px;
+  background: var(--accent);
+  color: var(--text-on-accent);
+  border: 0;
+  border-radius: 8px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.searchGo:hover {
+  background: var(--accent-bright);
+}
+
+.searchGo:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+.searchCount {
+  margin: 0;
+  color: var(--text-strong);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* Высота закреплена: выдача и разговор прокручиваются каждый сам по себе, и
+   длинная выдача не увозит плеер из виду. */
+.searchGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 24px;
+  height: 520px;
+}
+
+.searchResults,
+.searchSide {
+  min-width: 0;
+  min-height: 0;
+  overflow-y: auto;
+  /* Полоса прокрутки видна только под указателем. */
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+}
+
+.searchResults:hover,
+.searchSide:hover {
+  scrollbar-color: var(--surface-4) transparent;
+}
+
+.searchResults {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 4px;
+}
+
+/* Панель занимает оставшуюся высоту колонки, и прокручивается в ней текст
+   разговора, а не колонка целиком: плеер остаётся на виду. */
+.searchSide {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.searchVerdict {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0;
+  color: var(--text2);
+  font-size: 13px;
+}
+
+.searchVerdict strong {
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.searchFoot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 0;
+}
+
+.searchEmpty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin: 0;
+  padding: 24px;
+  color: var(--text3);
+  border: 1px dashed var(--border2);
+  border-radius: 12px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.searchScore {
+  padding: 2px 8px;
+  border: 1px solid var(--divider);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 1100px) {
+  .searchGrid {
+    grid-template-columns: minmax(0, 1fr);
+    height: auto;
+  }
+
+  .searchResults,
+  .searchSide {
+    max-height: 520px;
+  }
+}

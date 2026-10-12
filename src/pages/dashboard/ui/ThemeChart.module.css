@@ -1,0 +1,58 @@
+/* --- Легенда ---------------------------------------------------------------- */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--text-control);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.legend b {
+  color: var(--text-strong);
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Таблица вместо графика -------------------------------------------------- */
+.tableWrap {
+  max-height: 420px;
+  overflow: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--text-soft);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+}
+
+.table th,
+.table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--divider);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.table th {
+  position: sticky;
+  top: 0;
+  background: var(--surface-2);
+  color: var(--text2);
+  font-weight: 600;
+}
+
+.table th:first-child,
+.table td:first-child {
+  text-align: left;
+}
