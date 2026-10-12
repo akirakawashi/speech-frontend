@@ -1,0 +1,13 @@
+node_modules
+.next
+.git
+e2e
+playwright-report
+test-results
+coverage
+*.md
+# Local env files hold developer values. .env.local once put
+# SPEECH_DEV_API_PROXY_TARGET into the 2026-09-15 image, and the production
+# container forwarded /api to itself (500 on every call).
+.env*
+!.env.example

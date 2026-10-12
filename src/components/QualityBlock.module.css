@@ -1,0 +1,142 @@
+/* Оценка звонка по скрипту в карточке разговора. */
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+}
+
+.score {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+.good {
+  color: var(--accent);
+}
+
+.fair {
+  color: var(--yellow);
+}
+
+.poor {
+  color: var(--red);
+}
+
+.muted {
+  color: var(--text2);
+  font-size: var(--text-sm);
+}
+
+.note {
+  margin: 0;
+  color: var(--text2);
+  font-size: var(--text-sm);
+}
+
+.summary {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  column-gap: var(--space-2);
+  row-gap: var(--space-1);
+  font-size: var(--text-sm);
+}
+
+.mark {
+  font-weight: var(--weight-bold);
+  text-align: center;
+}
+
+.passed {
+  color: var(--accent);
+}
+
+.failed {
+  color: var(--red);
+}
+
+.skipped {
+  color: var(--text3);
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.tag {
+  padding: 1px var(--space-2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-full);
+  color: var(--text2);
+  font-size: var(--text-2xs);
+}
+
+.comment {
+  grid-column: 2;
+  color: var(--text2);
+  line-height: var(--leading-snug);
+}
+
+.evidence {
+  grid-column: 2;
+  display: flex;
+  gap: var(--space-1);
+  flex-wrap: wrap;
+}
+
+.chip {
+  padding: 0 var(--space-2);
+  background: var(--surface-3);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-full);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  cursor: pointer;
+}
+
+.chip:hover {
+  border-color: var(--accent);
+}
+
+.subtitle {
+  margin: var(--space-2) 0 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}

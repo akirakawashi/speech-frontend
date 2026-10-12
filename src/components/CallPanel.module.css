@@ -1,0 +1,423 @@
+/* Карточка внутри контента, а не колонка во всю высоту окна. Полоса слева
+   («border-left») была признаком приклеенной к краю панели: карточка окружена
+   рамкой со всех сторон и подчиняется тем же полям, что и всё остальное. */
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  flex: 1 1 auto;
+  min-height: 0;
+  padding: var(--space-5);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.title {
+  margin: 0;
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+}
+
+/* Идентификатор сессии длинный (`node_1_domain_2_nauss_0_1766092829_1263997`) и
+   в шапке занимал всю строку, оттесняя всё остальное. Он нужен для сверки с
+   источником (NCC или Телфин), поэтому остаётся — но обрезается, а целиком
+   читается по наведению. */
+.session {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text3);
+  min-width: 0;
+  max-width: 22ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  color: var(--text2);
+  font-size: var(--text-sm);
+}
+
+/* Источник звонка (S-35) ярче прочих полей строки: это не подробность
+   разговора, а ответ на вопрос «чей это звонок», с которого читается остальное. */
+.source {
+  color: var(--text);
+  font-weight: var(--weight-medium);
+}
+
+.summary {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-2);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+}
+
+/* Классификация (SP-310): уровни ИИ и оператора друг против друга. */
+.classification {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.levels {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.levels th {
+  padding: var(--space-1) var(--space-2);
+  border-bottom: 1px solid var(--border);
+  color: var(--text2);
+  font-weight: var(--weight-medium);
+  text-align: left;
+}
+
+.levels td {
+  padding: var(--space-1) var(--space-2);
+  vertical-align: top;
+}
+
+/* Номер уровня и отметка — узкие колонки: читаются названия. */
+.levelNumber,
+.levelMark {
+  width: 1%;
+  color: var(--text3);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.match {
+  margin: 0;
+  color: var(--text2);
+  font-size: var(--text-sm);
+}
+
+/* Тема по предложению ИИ помощника (SP-309). */
+.aiTopic {
+  margin: 0;
+  font-size: var(--text-sm);
+}
+
+.aiTopicLabel {
+  color: var(--text2);
+}
+
+.aiTopicNew {
+  margin-left: var(--space-2);
+  padding: 0 var(--space-2);
+  border: 1px solid currentColor;
+  border-radius: var(--radius-md);
+  color: var(--text2);
+  font-size: var(--text-sm);
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.button {
+  padding: var(--space-2) var(--space-3);
+  background: transparent;
+  color: var(--text2);
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: var(--transition-colors);
+}
+
+.button:hover:not(:disabled) {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+.button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.primary {
+  background: var(--accent);
+  color: var(--text-on-accent);
+  border-color: transparent;
+  font-weight: var(--weight-semibold);
+  min-width: 3.5rem;
+}
+
+.primary:hover:not(:disabled) {
+  background: var(--accent-bright);
+  color: var(--text-on-accent);
+}
+
+.active {
+  color: var(--accent);
+  border-color: var(--accent-line);
+}
+
+/* --- Полоса записи -------------------------------------------------------- */
+
+/* Волна. Полоски декоративные — настоящей огибающей у нас нет, считать её
+   пришлось бы на клиенте по всему файлу, ради картинки. Смысл полосы несут
+   метки совпадений и текущая позиция: по ним видно, где в разговоре нашлось
+   искомое, ещё до того, как что-то нажато. */
+.track {
+  position: relative;
+  /* `flex: none` обязателен: панель — колонка с прокруткой, и без него полоса
+     сжималась до нескольких пикселей, превращаясь в чёрточку, по которой
+     ничего не видно и не попасть. */
+  flex: none;
+  height: 48px;
+  background: repeating-linear-gradient(90deg, var(--surface-4) 0 2px, var(--surface-2) 2px 6px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.track:focus-visible {
+  outline: 2px solid var(--accent-line);
+  outline-offset: 1px;
+}
+
+.played {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--accent-bg-strong);
+  pointer-events: none;
+}
+
+/* Метка совпадения. Ширина минимальная, но не нулевая: на часовой записи
+   реплика занимает доли процента, и без минимума её было бы не видно. */
+.hit {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  min-width: 2px;
+  background: var(--accent);
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.hitCurrent {
+  opacity: 1;
+  top: 2px;
+  bottom: 2px;
+  box-shadow: var(--shadow-accent);
+}
+
+.cursor {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--text);
+  pointer-events: none;
+}
+
+.time {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--text2);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.counter {
+  color: var(--text2);
+  font-size: var(--text-sm);
+  white-space: nowrap;
+}
+
+/* --- Транскрипт ----------------------------------------------------------- */
+
+.transcript {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding-right: var(--space-2);
+}
+
+.reply {
+  display: grid;
+  grid-template-columns: 3.5rem 5.5rem 1fr;
+  gap: var(--space-3);
+  align-items: baseline;
+  padding: var(--space-2) var(--space-3);
+  background: none;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  transition: var(--transition-colors);
+}
+
+.reply:hover {
+  background: var(--surface-hover);
+}
+
+/* Реплика, которая сейчас звучит. Отдельно от текущего совпадения: это разные
+   вещи, и путать их значит терять место при перемотке. */
+.playing {
+  background: var(--surface-2);
+  border-color: var(--border);
+}
+
+.current {
+  border-color: var(--accent-line);
+  background: var(--accent-bg);
+}
+
+.replyTime {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--text3);
+  font-variant-numeric: tabular-nums;
+}
+
+.role {
+  font-size: var(--text-xs);
+  color: var(--text3);
+}
+
+.operator {
+  color: var(--accent2);
+}
+
+.text {
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+}
+
+.mark {
+  background: var(--accent-bg-strong);
+  color: var(--accent-bright);
+  border-radius: var(--radius-xs);
+  padding: 0 2px;
+}
+
+/* Маска штриховкой (PLY-05): скрытое должно быть видно как скрытое, а не
+   выглядеть частью текста. */
+.masked {
+  background: repeating-linear-gradient(
+    135deg,
+    var(--surface-4),
+    var(--surface-4) 3px,
+    var(--surface-3) 3px,
+    var(--surface-3) 6px
+  );
+  color: var(--text3);
+  border-radius: var(--radius-xs);
+  padding: 0 var(--space-1);
+  letter-spacing: 0.1em;
+}
+
+.revealed {
+  background: rgba(255, 209, 102, 0.14);
+  border-bottom: 1px dashed var(--warning);
+  color: var(--text);
+  padding: 0 2px;
+}
+
+.note {
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-2);
+  border: 1px dashed var(--border2);
+  border-radius: var(--radius-md);
+  color: var(--text2);
+  font-size: var(--text-sm);
+}
+
+.error {
+  border-style: solid;
+  border-color: var(--danger);
+  color: var(--text);
+}
+
+/* --- Заголовок транскрипта ------------------------------------------------ */
+
+.transcriptHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--border);
+}
+
+.transcriptTitle {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+}
+
+.legend {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  color: var(--text3);
+  font-size: var(--text-xs);
+}
+
+.legendDot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+}
+
+.legendDot + .legendDot,
+.legend > .legendDot:not(:first-child) {
+  margin-left: var(--space-2);
+}
+
+.legendOperator {
+  background: var(--text2);
+}
+
+.legendClient {
+  background: var(--border-strong);
+}
+
+/* «Ссылка» и «Скачать» в шапке: действия над разговором, а не над
+   воспроизведением, и выглядят они не как кнопки плеера. */
+.link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--text2);
+  font: inherit;
+  font-size: var(--text-sm);
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.link:hover {
+  color: var(--accent);
+}

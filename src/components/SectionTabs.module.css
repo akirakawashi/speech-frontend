@@ -1,0 +1,40 @@
+/* Разделы приложения. Вид — из макета заказчика: вкладки-«пилюли» под
+   заголовком экрана, активная залита акцентом. */
+
+.sections {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* Размеры — из макета: 9×18, 13px/600. Цвет текста неактивной вкладки экран
+   может задать сам (`--tab-text`): в палитре макета он светлее вторичного. */
+.section {
+  padding: 9px 18px;
+  background: var(--surface-2);
+  color: var(--tab-text, var(--text2));
+  border: 1px solid var(--border2);
+  border-radius: var(--radius-full);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: var(--transition-colors);
+}
+
+.section:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+.section:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+.section[aria-current="page"] {
+  background: var(--accent);
+  color: var(--text-on-accent);
+  border-color: var(--accent);
+}
